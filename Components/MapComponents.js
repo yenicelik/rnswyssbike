@@ -29,11 +29,32 @@ export default class rnswyssbike extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
+      /* START OF GPS LOGIC */
       gpsPosition: {
         latitude: 0,
         longitude: 0
-      }
+      },
+      markers: [{
+                title: "Bike1",
+                description: "Bike1",
+                latitude: 38.232,
+                longitude: -121.3312186
+              },
+              {
+                title: "Bike2",
+                description: "Bike2",
+                latitude: 39.532,
+                longitude: -123.5312186
+              },
+              {
+                title: "Bike3",
+                description: "Bike3",
+                latitude: 36.832,
+                longitude: -122.7312186
+              }]
+      /* END OF GPS LOGIC */
     }
   }
 
@@ -65,6 +86,7 @@ export default class rnswyssbike extends Component {
         latitude: lat,
         longitude: lng
       };
+      console.log(lastRegion);
       this.setState({
         gpsPosition: lastRegion
       }, (error) => console.log(JSON.stringify(error)), {
@@ -92,15 +114,37 @@ export default class rnswyssbike extends Component {
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}>
-        <MapView.Marker
-        coordinate={{
-          latitude: this.state.gpsPosition.latitude,
-          longitude: this.state.gpsPosition.longitude
-        }}>
+
+        // <MapView.Marker
+        // coordinate={{latitude: this.state.marker[0].latitude, longitude: this.state.marker[0].longitude}}
+        // title={this.state.marker[0].title}
+        // description={this.state.marker[0].description}
+        // >
+        // <View style={styles.bikeRadius}>
+        // <View style={styles.bikeMarker} />
+        // </View>
+        // </MapView.Marker>
+
+        // {this.state.markers.map( (marker) => {
+        //   console.log(marker);
+        //   <MapView.Marker 
+        //     coordinate={{latitude: marker.latitude, longitude: marker.longitude}}
+        //     title={marker.title}
+        //     description={marker.description}
+        //   >
+        //   <View style={styles.bikeRadius}>
+        //   <View style={styles.bikeMarker} />
+        //   </View>
+        //   </MapView.Marker>
+        //   console.log(marker);
+        // })}
+
+        <MapView.Marker coordinate={{latitude: this.state.gpsPosition.latitude, longitude: this.state.gpsPosition.longitude}}>
         <View style={styles.radius}>
-        <View style={styles.marker} />
+        <View style={styles.marker}></View>
         </View>
         </MapView.Marker>
+
         </MapView>
       </View>
     );
@@ -120,6 +164,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   marker: {
+    height: 20,
+    width: 20,
+    borderWidth: 3,
+    borderColor: 'white',
+    borderRadius: 20/2,
+    overflow: 'hidden',
+    backgroundColor: '#rgba(255, 255, 255, 0.05)'
+  },
+  bikeRadius: {
+    height: 30,
+    width: 30,
+    borderRadius: 30/2,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(255, 122, 0, 0.5)',
+    borderWidth: 4,
+    borderColor: 'rgba(255, 122, 0, 0.5)',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  bikeMarker: {
     height: 20,
     width: 20,
     borderWidth: 3,
