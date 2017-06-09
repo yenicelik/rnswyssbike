@@ -4,17 +4,40 @@
  * @flow
  */
 
+// const AppRegistry = require('AppRegistry');
+// const Component = require('Component');
+// const Dimensions = require('Dimensions');
+// const MapView = require('MapView');
+// const React = require('React');
+// const StyleSheet = require('StyleSheet');
+// const View = require('View.react');
+//
+// const firebase = require('firebase');
+// const navigator = require('navigator');
+
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  Text,
   View,
-  Dimensions
+  Dimensions,
+  Text,
+  ListView
 } from 'react-native';
 
 import MapView from 'react-native-maps';
 
+//TODO: move the firebase logic into the initialization of the app
+import * as firebase from 'firebase';
+// Initialize Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyChC62HAtPWAtFiJmcDlTGWwq_YFOjSNqE",
+  authDomain: "protobike-1495735501799.firebaseapp.com",
+  databaseURL: "https://protobike-1495735501799.firebaseio.com",
+  storageBucket: "protobike-1495735501799.appspot.com",
+  messagingSenderId: "777348050122"
+};
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 const {
   width,
@@ -23,7 +46,7 @@ const {
 const SCREEN_HEIGHT = height;
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 1.;
+const LATITUDE_DELTA = 0.7;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class rnswyssbike extends Component {
@@ -31,33 +54,59 @@ export default class rnswyssbike extends Component {
   constructor(props) {
     super(props);
 
+    this.bikesRef = firebaseApp.database().ref().child('/bikes/');
+
     this.state = {
-      /* START OF GPS LOGIC */
       gpsPosition: {
         latitude: 0,
         longitude: 0
       },
-      markers: [{
-                title: "Bike1",
-                description: "Bike1",
-                latitude: 47.3673,
-                longitude: 8.45
-              },
-              {
-                title: "Bike2",
-                description: "Bike2",
-                latitude: 47.1673,
-                longitude: 8.79
-              },
-              {
-                title: "Bike3",
-                description: "Bike3",
-                latitude: 47.5673,
-                longitude: 8.65
-              }]
-      /* END OF GPS LOGIC */
+      markers: [],
     }
   }
+
+  /* START OF FIREBASE LOGIC */
+  listenForBikes(bikesRef) {
+    console.log("In listenForBikes");
+    bikesRef.on('value', (snap) => {
+      console.log("Oh snap!");
+      //get children as an array
+      var localMarkers = [];
+      snap.forEach((child) => {
+        console.log("Bike no is: ");
+        console.log(child.val().bike_no);
+        localMarkers.push({
+          title: child.val().bike_no, // child.val().bike_no,
+          description: "Bike2",
+          current_user: child.val().current_user,
+          latitude: parseFloat(child.val().positionLat),
+          longitude: parseFloat(child.val().positionLng),
+          _key: child.key
+        });
+      });
+
+      console.log("The full list is now: ");
+      console.log(JSON.stringify(localMarkers));
+      this.setState({
+        markers: localMarkers //marthis.state.markers.cloneWithRows(markers)
+      });
+    })
+  }
+
+  _renderItem(marker) {
+    console.log(marker);
+    return (
+      <MapView.Marker
+      coordinate={{longitude: marker.longitude, latitude: marker.latitude}}
+      title={marker.description}
+      description={marker.description}>
+      <View style={styles.bikeRadius}>
+             <View style={styles.bikeMarker}></View>
+      </View>
+      </MapView.Marker>
+    );
+  }
+  /* END OF FIREBASE LOGI */
 
 
   /* START OF GPS LOGIC */
@@ -88,7 +137,6 @@ export default class rnswyssbike extends Component {
         latitude: lat,
         longitude: lng
       };
-      console.log(lastRegion);
       this.setState({
         gpsPosition: lastRegion
       }, (error) => console.log(JSON.stringify(error)), {
@@ -96,8 +144,12 @@ export default class rnswyssbike extends Component {
         timeout: 2000,
         maximumAge: 1000
       });
-
     });
+
+    /* START SUB FIREBASE LOGIC */
+    this.listenForBikes(this.bikesRef);
+    /* END SUB FIREBASE LOGIC */
+
   }
 
   componentWillUnmount() {
@@ -124,7 +176,7 @@ export default class rnswyssbike extends Component {
           <MapView.Marker
           key={index}
           coordinate={{longitude: marker.longitude, latitude: marker.latitude}}
-          title={marker.title}
+          title={marker.description}
           description={marker.description}
           >
           <View style={styles.bikeRadius}>
@@ -133,12 +185,12 @@ export default class rnswyssbike extends Component {
           </MapView.Marker>
         );
         })}
-
           <MapView.Marker coordinate={{latitude: this.state.gpsPosition.latitude, longitude: this.state.gpsPosition.longitude}}>
             <View style={styles.radius}>
               <View style={styles.marker}></View>
             </View>
           </MapView.Marker>
+
         </MapView>
       </View>
     );
@@ -149,7 +201,7 @@ const styles = StyleSheet.create({
   radius: {
     height: 30,
     width: 30,
-    borderRadius: 30/2,
+    borderRadius: 30 / 2,
     overflow: 'hidden',
     backgroundColor: 'rgba(0, 122, 255, 0.5)',
     borderWidth: 4,
@@ -162,14 +214,14 @@ const styles = StyleSheet.create({
     width: 20,
     borderWidth: 3,
     borderColor: 'white',
-    borderRadius: 20/2,
+    borderRadius: 20 / 2,
     overflow: 'hidden',
     backgroundColor: '#rgba(255, 255, 255, 0.05)'
   },
   bikeRadius: {
     height: 30,
     width: 30,
-    borderRadius: 30/2,
+    borderRadius: 30 / 2,
     overflow: 'hidden',
     backgroundColor: 'rgba(255, 122, 0, 0.5)',
     borderWidth: 4,
@@ -182,7 +234,7 @@ const styles = StyleSheet.create({
     width: 20,
     borderWidth: 3,
     borderColor: 'white',
-    borderRadius: 20/2,
+    borderRadius: 20 / 2,
     overflow: 'hidden',
     backgroundColor: '#rgba(255, 255, 255, 0.05)'
   },
@@ -192,7 +244,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  map:  {
+  map: {
     left: 0,
     right: 0,
     top: 0,
