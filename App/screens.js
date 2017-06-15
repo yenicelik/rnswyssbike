@@ -1,15 +1,15 @@
 import { Navigation } from 'react-native-navigation';
 
-import AccountComponent from './Components/AccountComponent.js';
-import BookbikeComponent from './Components/BookbikeComponent.js';
-import FeedbackComponent from './Components/FeedbackComponent.js';
-import LoginComponent from './Components/LoginComponent.js';
-import MapComponents from './Components/MapComponents.js';
-import MarkersComponent from './Components/MarkersComponent.js';
-import SignupComponent from './Components/SignupComponent.js';
-import SuccessBookedBike from './Components/SuccessBookedBike.js';
-import EndBookedBike from './Components/EndBookedBike.js';
-import RideComplete from './Components/RideComplete.js';
+import AccountComponent from './AccountComponent/AccountComponent.js';
+import BookbikeComponent from './BookbikeComponent/BookbikeComponent.js';
+import FeedbackComponent from './FeedbackComponent/FeedbackComponent.js';
+import LoginComponent from './LoginComponent/LoginComponent.js';
+import MapComponents from './MapComponents/MapComponents.js';
+import MarkersComponent from './MarkersComponent/MarkersComponent.js';
+import SignupComponent from './SignupComponent/SignupComponent.js';
+import SuccessBookedBike from './SuccessBookedBikeComponent/SuccessBookedBike.js';
+import EndBookedBike from './EndBookedBikeComponent/EndBookedBike.js';
+import RideComplete from './RideCompleteComponent/RideComplete.js';
 
 export function registerScreens() {
   console.log("Registering screens!");
