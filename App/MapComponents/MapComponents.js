@@ -30,6 +30,8 @@ import MapView from 'react-native-maps';
 import MarkersComponent from '../MarkersComponent/MarkersComponent.js';
 import FeedbackComponent from '../FeedbackComponent/FeedbackComponent.js';
 
+import {mapStore} from './MapStore.js';
+
 const {
   width,
   height
@@ -40,57 +42,11 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 1; //0.00322;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+@observer
 export default class MapComponents extends Component {
-
-  /** GPS STUFF */
-  gpsPosLat = 0;
-  gpsPosLng = 0;
-  watchID = null;
-
-  getCurLocation() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      var lat = parseFloat(position.coords.latitude);
-      var lng = parseFloat(position.coords.longitude);
-      this.setState({
-        usrLat: lat,
-        usrLng: lng
-      });
-    }, (error) => alert(JSON.stringify(error)), {
-      enableHighAccuracy: true,
-      timeout: 2000,
-      maximumAge: 1000
-    });
-  }
-
-  watchCurLocation() {
-    this.watchID = navigator.geolocation.watchPosition((position) => {
-      console.log("Recording GPS data!");
-      var lat = parseFloat(position.coords.latitude);
-      var lng = parseFloat(position.coords.longitude);
-      this.setState({
-        usrLat: lat,
-        usrLng: lng,
-      }, (error) => console.log(JSON.stringify(error)), {
-        enableHighAccuracy: true,
-        timeout: 2000,
-        maximumAge: 1000
-      });
-    });
-  }
-
-  clearWatch() {
-    navigator.geolocation.clearWatch(this.watchID);
-  }
-  /*/ GPS STUFF */
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      usrLat: 47.367601,
-      usrLng: 8.545226,
-    }
-
     this.cityBorders= [{
       latitude:47.367601,
       longitude:8.545226
@@ -107,20 +63,6 @@ export default class MapComponents extends Component {
       latitude:47.368234,
       longitude:8.540321
     }];
-
-    this.markers= [{
-      longitude: 8.545592,
-      latitude: 47.366465,
-      description: "Bike 1",
-      title: "Bike 1"
-    },
-    {
-      longitude: 8.545892,
-      latitude: 47.366365,
-      description: "Bike 2",
-      title: "Bike 2"
-    }
-  ];
   }
 
   /** NAVIGATORS */
@@ -134,13 +76,13 @@ export default class MapComponents extends Component {
 
   componentDidMount() {
     console.log("MapComponent did mount!");
-    this.getCurLocation();
-    this.watchCurLocation();
+    mapStore.getCurLocation();
+    mapStore.watchCurLocation();
   }
 
   componentWillUnmount() {
     console.log("MapComponent will unmount!");
-    this.clearWatch();
+    mapStore.clearWatch();
   }
 
 
@@ -157,8 +99,8 @@ export default class MapComponents extends Component {
           showsMyLocationButton={true}
           style={styles.map}
           region={{
-              latitude: this.state.usrLat,
-              longitude: this.state.usrLng,
+              latitude: mapStore.usrLat, //this.state.usrLat,
+              longitude: mapStore.usrLng, //this.state.usrLng,
               latitudeDelta: LATITUDE_DELTA,
               longitudeDelta: LONGITUDE_DELTA,
             }}
@@ -173,7 +115,7 @@ export default class MapComponents extends Component {
         <MarkersComponent navigator={this.props.navigator}>
         </MarkersComponent>
 
-          <MapView.Marker coordinate={{latitude: this.state.usrLat, longitude: this.state.usrLng}}>
+          <MapView.Marker coordinate={{latitude: mapStore.usrLat, longitude: mapStore.usrLng}}>
             <View style={styles.radius}>
               <View style={styles.marker}></View>
             </View>

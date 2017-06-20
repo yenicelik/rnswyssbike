@@ -29,16 +29,9 @@ class MarkersStore {
     return markers.slice();
   }
 
-  add = (bikeNo) => {
-  };
-
-  update = (bikeNo, data) => {
-
-  };
-
-  del = (bikeNo) => {
-
-  };
+  // update = (bikeNo, data) => {
+  //   Fb.bikes.update({bikeNo: data});
+  // };
 
 }
 

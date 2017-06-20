@@ -20,16 +20,27 @@ import { Form,
 
 import {Button} from 'native-base';
 
+import {bookingStore} from '../BookingStore.js';
+
+
 export default class BookbikeComponent extends Component {
 
   constructor(props) {
     super(props);
   }
 
+  updateBookedBikeBegin() {
+    bookingStore.bookBike();
+    this.navigateToSuccessBookedBike();
+  }
+
   navigateToSuccessBookedBike() {
     console.log("Bike booked");
     this.props.navigator.push({
       screen: "rnswyssbike.SuccessBookedBike",
+      passProps: {
+        bike_no: this.props.bike_no
+      }
     });
   }
 

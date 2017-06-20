@@ -27,13 +27,7 @@ export default class SuccessBookedBike extends Component {
   constructor(props) {
     super(props);
   }
-
-  /** DATABASE ACTIONS */
-  updateBookedBikeBegin() {
-
-  }
-  /*/ DATABASE ACTIONS */
-
+  
   /** NAVIGATION ACTIONS */
   backToMap() {
     this.props.navigator.popToRoot({
