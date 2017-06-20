@@ -24,6 +24,8 @@ import { Navigation } from 'react-native-navigation';
 import {Container, Content, Badge, Text, Card, CardItem, Button, Fab, Icon, Tab, Tabs} from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
+import {Fb} from '../firebase.js';
+
 import MapView from 'react-native-maps';
 import MarkersComponent from '../MarkersComponent/MarkersComponent.js';
 import FeedbackComponent from '../FeedbackComponent/FeedbackComponent.js';
@@ -35,7 +37,7 @@ const {
 const SCREEN_HEIGHT = height;
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 1 //0.00322;
+const LATITUDE_DELTA = 1; //0.00322;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class MapComponents extends Component {
@@ -168,16 +170,16 @@ export default class MapComponents extends Component {
         >
         </MapView.Polygon>
 
+        <MarkersComponent navigator={this.props.navigator}>
+        </MarkersComponent>
+
           <MapView.Marker coordinate={{latitude: this.state.usrLat, longitude: this.state.usrLng}}>
             <View style={styles.radius}>
               <View style={styles.marker}></View>
             </View>
           </MapView.Marker>
+
         </MapView>
-
-        <MarkersComponent navigator={this.props.navigator}>
-        </MarkersComponent>
-
 
         <View style={{flex: 1, justifyContent: 'space-between', bottom: 0, position: 'absolute', width: '100%'}}>
           <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Unlock Code: 4391</Text></Button>

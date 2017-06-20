@@ -14,7 +14,22 @@ import MapView from 'react-native-maps';
 import BookbikeComponent from '../BookbikeComponent/BookbikeComponent';
 import { Navigation } from 'react-native-navigation';
 
+import {Fb} from '../firebase.js';
 import {fbMarkers} from './MarkersStore.js';
+
+const renderingMarkers = [{
+  longitude: 8.645592,
+  latitude: 47.366465,
+  description: "Bike 1",
+  title: "Bike 1"
+},
+{
+  longitude: 8.545892,
+  latitude: 47.466365,
+  description: "Bike 2",
+  title: "Bike 2"
+}
+];
 
 @observer
 export default class MarkersComponent extends Component {
@@ -22,19 +37,7 @@ export default class MarkersComponent extends Component {
   constructor(props) {
     console.log("In markers...");
     super(props);
-
-    this.state={
-      askForBooking: false,
-    }
-
-    console.log("fbMarkers are: ");
-    console.log(JSON.stringify(fbMarkers.getMarkers()));
   }
-
-  setAskForBooking(askForBookingState){
-    this.setState({askForBooking: askForBookingState})
-  }
-
 
   /** NAVIGATORS */
   navigateToBookBike(bikeNo) {
@@ -50,28 +53,28 @@ export default class MarkersComponent extends Component {
   /*/ NAVIGATORS */
 
   render() {
+    var renderingMarkers = fbMarkers.markers.slice() || [];
+    console.log("Rendering stuff..");
+    console.log(renderingMarkers);
+    console.log("Rendering ALL the stuff!");
     return (<View>
-      {JSON.stringify(fbMarkers.getMarkers())}
-      </View>)
+      {renderingMarkers.map( (marker, index) => {
+      console.log(JSON.stringify(marker));
+      return (
+      <MapView.Marker
+      navigator={this.props.navigator}
+      key={index}
+      coordinate={{longitude: marker.longitude, latitude: marker.latitude}}
+      title={marker.title}
+      description={marker.description}
+      onPress={(coord, pos) => this.navigateToBookBike(marker.title)}
+      ><View style={styles.bikeRadius}><View style={styles.bikeMarker}>
+      </View></View>
+      </MapView.Marker>
+    );
+    })}</View>)
   }
 }
-
-// {fbMarkers.getMarkers().forEach( (marker, index) => {
-// console.log("Adding marker to map..");
-// console.log(JSON.stringify(marker));
-// return (
-// <MapView.Marker
-// navigator={this.props.navigator}
-// key={index}
-// coordinate={{longitude: marker.lng, latitude: marker.lat}}
-// title={marker.title}
-// description={marker.description}
-// onPress={(coord, pos) => this.navigateToBookBike(marker.title)}
-// ><View style={styles.bikeRadius}><View style={styles.bikeMarker}>
-// </View></View>
-// </MapView.Marker>
-// );
-// })}
 
 const styles = StyleSheet.create({
   radius: {

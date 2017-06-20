@@ -22,3 +22,5 @@ or using the equivalent operation for android (`run-android`)
 [React native form generator](npm install --save react-native-form-generator)
 [React native navigation](https://wix.github.io/react-native-navigation/)
 [React native navbar collapsible](https://github.com/caroaguilar/react-native-bar-collapsible)
+[Mobx form](https://github.com/foxhound87/mobx-react-form)
+[validatorjs]
