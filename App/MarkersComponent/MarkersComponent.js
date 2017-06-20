@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {observable, computed} from 'mobx';
+import {observer} from 'mobx-react';
 import {
   AppRegistry,
   StyleSheet,
@@ -12,78 +14,27 @@ import MapView from 'react-native-maps';
 import BookbikeComponent from '../BookbikeComponent/BookbikeComponent';
 import { Navigation } from 'react-native-navigation';
 
-import firebase from '../firebase.js';
+import {fbMarkers} from './MarkersStore.js';
 
-// const markers = [{
-//   longitude: 8.545592,
-//   latitude: 47.366465,
-//   description: "Bike 1",
-//   title: "Bike 1"
-// },
-// {
-//   longitude: 8.545892,
-//   latitude: 47.366365,
-//   description: "Bike 2",
-//   title: "Bike 2"
-// }
-// ];
-
+@observer
 export default class MarkersComponent extends Component {
 
   constructor(props) {
     console.log("In markers...");
     super(props);
 
-    try {
-        this.bikesRef = firebase.database().ref('bikes/');
-    } catch (e) {
-      alert("Fatal error connecting to the database");
-      console.log(e.message);
-    }
-
     this.state={
       askForBooking: false,
-      markers: [],
     }
+
+    console.log("fbMarkers are: ");
+    console.log(JSON.stringify(fbMarkers.getMarkers()));
   }
-
-  componentDidMount() {
-    this.listenForBikes();
-  }
-
-  /** DATABASE ACTIONS */
-  listenForBikes() {
-    var localMarkers;
-    console.log("Listening for bikes!");
-    this.bikesRef.on('value', (snap) => {
-      localMarkers = [];
-      snap.forEach((child) => {
-          console.log("Bike number!");
-          console.log(child.val().bike_no);
-        localMarkers.push({
-          title: child.val().bike_no,
-          description: "Bike2",
-          current_user: child.val().current_user,
-          latitude: parseFloat(child.val().positionLat),
-          longitue: parseFloat(child.val().positionLng),
-          _key: child.key
-        });
-        console.log("Local markers now: ");
-        console.log(JSON.stringify(localMarkers));
-      })
-    });
-
-    this.setState({
-        markers: localMarkers //marthis.state.markers.cloneWithRows(markers)
-      });
-
-
-  }
-  /*/ DATABASE ACTIONS */
 
   setAskForBooking(askForBookingState){
     this.setState({askForBooking: askForBookingState})
   }
+
 
   /** NAVIGATORS */
   navigateToBookBike(bikeNo) {
@@ -98,27 +49,30 @@ export default class MarkersComponent extends Component {
   }
   /*/ NAVIGATORS */
 
-
-
   render() {
     return (<View>
-      {this.state.markers.map( (marker, index) => {
-      console.log(JSON.stringify(marker));
-      return (
-      <MapView.Marker
-      navigator={this.props.navigator}
-      key={index}
-      coordinate={{longitude: marker.longitude, latitude: marker.latitude}}
-      title={marker.title}
-      description={marker.description}
-      onPress={(coord, pos) => this.navigateToBookBike(marker.title)}
-      ><View style={styles.bikeRadius}><View style={styles.bikeMarker}>
-      </View></View>
-      </MapView.Marker>
-    );
-    })}</View>)
+      {JSON.stringify(fbMarkers.getMarkers())}
+      </View>)
   }
 }
+
+// {fbMarkers.getMarkers().forEach( (marker, index) => {
+// console.log("Adding marker to map..");
+// console.log(JSON.stringify(marker));
+// return (
+// <MapView.Marker
+// navigator={this.props.navigator}
+// key={index}
+// coordinate={{longitude: marker.lng, latitude: marker.lat}}
+// title={marker.title}
+// description={marker.description}
+// onPress={(coord, pos) => this.navigateToBookBike(marker.title)}
+// ><View style={styles.bikeRadius}><View style={styles.bikeMarker}>
+// </View></View>
+// </MapView.Marker>
+// );
+// })}
+
 const styles = StyleSheet.create({
   radius: {
     height: 30,

@@ -168,16 +168,16 @@ export default class MapComponents extends Component {
         >
         </MapView.Polygon>
 
-        <MarkersComponent navigator={this.props.navigator}>
-        </MarkersComponent>
-
-
           <MapView.Marker coordinate={{latitude: this.state.usrLat, longitude: this.state.usrLng}}>
             <View style={styles.radius}>
               <View style={styles.marker}></View>
             </View>
           </MapView.Marker>
         </MapView>
+
+        <MarkersComponent navigator={this.props.navigator}>
+        </MarkersComponent>
+
 
         <View style={{flex: 1, justifyContent: 'space-between', bottom: 0, position: 'absolute', width: '100%'}}>
           <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Unlock Code: 4391</Text></Button>

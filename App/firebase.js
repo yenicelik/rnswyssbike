@@ -10,4 +10,12 @@ const config = {
 };
 firebase.initializeApp(config);
 
-export default firebase;
+const root = firebase.database().ref();
+const bikes = firebase.database().ref('bikes/');
+
+const Fb = {
+  root,
+  bikes
+};
+
+export {Fb};
