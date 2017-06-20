@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import {startMainApp} from './../commons.js';
 
+import firebase from '../firebase';
+
 // import { Form,
 //   Separator,InputField, LinkField,
 //   SwitchField, PickerField,DatePickerField,TimePickerField
@@ -33,6 +35,24 @@ export default class LoginComponent extends Component {
     super(props);
   }
 
+  /** DATABASE ACTIONS */
+  async naiveLogin(email, pass) { //Not sure if the 'async' flag before is necessary
+    try {
+      await firebase.auth()
+        .signInWithEmailAndPassword(email, pass)
+        .then((userData) => {
+          console.log(JSON.stringify(userData));
+        });
+        console.log("Logged In!");
+        return true;
+    } catch (error) {
+      console.log(error.toString());
+      alert('Login Failed. Please try again'+error.toString());
+      return false;
+    }
+  }
+  /*/ DATABASE ACTIONS */
+
   /** NAVIGATORS **/
   navigateToSignUp(){
     this.props.navigator.push({
@@ -44,31 +64,6 @@ export default class LoginComponent extends Component {
     startMainApp();
   }
   /*/ NAVIGATORS **/
-
-  /** LOGIN FUNCTORS **/
-  _emailPassLogin(){
-    // Log in and display an alert to tell the user what happened.
-    this.props.firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password
-    ).then((userData) =>
-      {
-        this.setState({
-                loading: false
-              });
-              AsyncStorage.setItem('userData', JSON.stringify(userData));
-              this.props.navigator.push({
-                component: Account
-              });
-      }
-    ).catch((error) =>
-        {
-              this.setState({
-                loading: false
-              });
-        alert('Login Failed. Please try again'+error);
-    });
-  }
-
-  /*/ LOGIN FUNCTORS **/
 
 //<PushButtonCell ref='push' title='Push me!'/>
   render() {

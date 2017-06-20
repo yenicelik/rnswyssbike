@@ -20,19 +20,28 @@ import { Form,
 
 import {Button} from 'native-base';
 
+
+//Update the booking bike DB data here
 export default class SuccessBookedBike extends Component {
 
   constructor(props) {
     super(props);
   }
 
+  /** DATABASE ACTIONS */
+  updateBookedBikeBegin() {
+
+  }
+  /*/ DATABASE ACTIONS */
+
+  /** NAVIGATION ACTIONS */
   backToMap() {
     this.props.navigator.popToRoot({
       animated: true // does the pop have transition animation or does it happen immediately (optional)
     });
   }
+  /*/ NAVIGATION ACTIONS */
 
-//<PushButtonCell ref='push' title='Push me!'/>
   render() {
     return (
       <View style={{flex:1}}>

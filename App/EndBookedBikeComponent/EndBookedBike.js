@@ -26,6 +26,13 @@ export default class EndBookedBike extends Component {
     super(props);
   }
 
+  /** DATABASE ACTIONS */
+  updateBookedBikeEnd() {
+
+  }
+  /*/ DATABASE ACTIONS */
+
+  /** NAVIGATOR ACTIONS */
   navigateToRideComplete(){
     this.props.navigator.showModal({
       screen: "rnswyssbike.RideComplete"
@@ -37,6 +44,7 @@ export default class EndBookedBike extends Component {
       animated: true // does the pop have transition animation or does it happen immediately (optional)
     });
   }
+  /*/ NAVIGATOR ACTIONS */
 
 //<PushButtonCell ref='push' title='Push me!'/>
   render() {

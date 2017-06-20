@@ -12,22 +12,21 @@ import MapView from 'react-native-maps';
 import BookbikeComponent from '../BookbikeComponent/BookbikeComponent';
 import { Navigation } from 'react-native-navigation';
 
-import firebase from '../firebase';
+import firebase from '../firebase.js';
 
-
-const markers = [{
-  longitude: 8.545592,
-  latitude: 47.366465,
-  description: "Bike 1",
-  title: "Bike 1"
-},
-{
-  longitude: 8.545892,
-  latitude: 47.366365,
-  description: "Bike 2",
-  title: "Bike 2"
-}
-];
+// const markers = [{
+//   longitude: 8.545592,
+//   latitude: 47.366465,
+//   description: "Bike 1",
+//   title: "Bike 1"
+// },
+// {
+//   longitude: 8.545892,
+//   latitude: 47.366365,
+//   description: "Bike 2",
+//   title: "Bike 2"
+// }
+// ];
 
 export default class MarkersComponent extends Component {
 
@@ -35,19 +34,32 @@ export default class MarkersComponent extends Component {
     console.log("In markers...");
     super(props);
 
-    this.bikesRef = firebase.database().ref().child('/bikes/');
+    try {
+        this.bikesRef = firebase.database().ref('bikes/');
+    } catch (e) {
+      alert("Fatal error connecting to the database");
+      console.log(e.message);
+    }
 
     this.state={
       askForBooking: false,
+      markers: [],
     }
+  }
+
+  componentDidMount() {
+    this.listenForBikes();
   }
 
   /** DATABASE ACTIONS */
   listenForBikes() {
     var localMarkers;
-    bikesRef.on('value', (snap) => {
+    console.log("Listening for bikes!");
+    this.bikesRef.on('value', (snap) => {
       localMarkers = [];
       snap.forEach((child) => {
+          console.log("Bike number!");
+          console.log(child.val().bike_no);
         localMarkers.push({
           title: child.val().bike_no,
           description: "Bike2",
@@ -55,13 +67,16 @@ export default class MarkersComponent extends Component {
           latitude: parseFloat(child.val().positionLat),
           longitue: parseFloat(child.val().positionLng),
           _key: child.key
-        })
+        });
+        console.log("Local markers now: ");
+        console.log(JSON.stringify(localMarkers));
       })
     });
 
     this.setState({
-      markers: localMarkers,
-    });
+        markers: localMarkers //marthis.state.markers.cloneWithRows(markers)
+      });
+
 
   }
   /*/ DATABASE ACTIONS */
@@ -71,9 +86,14 @@ export default class MarkersComponent extends Component {
   }
 
   /** NAVIGATORS */
-  navigateToBookBike() {
+  navigateToBookBike(bikeNo) {
+    console.log("Bike number");
+    console.log(bikeNo);
     this.props.navigator.push({
       screen: "rnswyssbike.BookbikeComponent",
+      passProps: {
+        bike_no: bikeNo
+      }
     });
   }
   /*/ NAVIGATORS */
@@ -82,7 +102,7 @@ export default class MarkersComponent extends Component {
 
   render() {
     return (<View>
-      {markers.map( (marker, index) => {
+      {this.state.markers.map( (marker, index) => {
       console.log(JSON.stringify(marker));
       return (
       <MapView.Marker
@@ -91,9 +111,10 @@ export default class MarkersComponent extends Component {
       coordinate={{longitude: marker.longitude, latitude: marker.latitude}}
       title={marker.title}
       description={marker.description}
-      onPress={(coord, pos) => this.navigateToBookBike()}
+      onPress={(coord, pos) => this.navigateToBookBike(marker.title)}
       ><View style={styles.bikeRadius}><View style={styles.bikeMarker}>
-      </View></View></MapView.Marker>
+      </View></View>
+      </MapView.Marker>
     );
     })}</View>)
   }

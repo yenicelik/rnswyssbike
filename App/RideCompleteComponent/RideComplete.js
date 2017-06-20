@@ -20,7 +20,6 @@ import { Form,
 
 import firebase from '../firebase';
 
-
 import {startMainApp} from './../commons.js';
 
 import {Button} from 'native-base';
@@ -32,6 +31,7 @@ export default class RideComplete extends Component {
   }
 
   /** DATABASE ACTIONS */
+
 
   /*/ DATABASE ACTIONS */
 
