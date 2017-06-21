@@ -16,7 +16,8 @@ class MarkersStore {
             longitude: parseFloat(marker.val().positionLng),
             latitude: parseFloat(marker.val().positionLat),
             description: "Bike 1",
-            title: "b" + String(marker.val().bike_no)
+            title: "b" + String(marker.val().bike_no),
+            bike_no: marker.val().bike_no
           })
         });
         this.markers.replace(localMarkers);

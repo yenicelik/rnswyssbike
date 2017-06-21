@@ -30,7 +30,7 @@ import MapView from 'react-native-maps';
 import MarkersComponent from '../MarkersComponent/MarkersComponent.js';
 import FeedbackComponent from '../FeedbackComponent/FeedbackComponent.js';
 
-import {mapStore} from './MapStore.js';
+import {userStore} from '../UserStore.js';
 
 const {
   width,
@@ -76,13 +76,13 @@ export default class MapComponents extends Component {
 
   componentDidMount() {
     console.log("MapComponent did mount!");
-    mapStore.getCurLocation();
-    mapStore.watchCurLocation();
+    userStore.getCurLocation();
+    userStore.watchCurLocation();
   }
 
   componentWillUnmount() {
     console.log("MapComponent will unmount!");
-    mapStore.clearWatch();
+    userStore.clearWatch();
   }
 
 
@@ -99,8 +99,8 @@ export default class MapComponents extends Component {
           showsMyLocationButton={true}
           style={styles.map}
           region={{
-              latitude: mapStore.usrLat, //this.state.usrLat,
-              longitude: mapStore.usrLng, //this.state.usrLng,
+              latitude: userStore.usrLat, //this.state.usrLat,
+              longitude: userStore.usrLng, //this.state.usrLng,
               latitudeDelta: LATITUDE_DELTA,
               longitudeDelta: LONGITUDE_DELTA,
             }}
@@ -115,7 +115,7 @@ export default class MapComponents extends Component {
         <MarkersComponent navigator={this.props.navigator}>
         </MarkersComponent>
 
-          <MapView.Marker coordinate={{latitude: mapStore.usrLat, longitude: mapStore.usrLng}}>
+          <MapView.Marker coordinate={{latitude: userStore.usrLat, longitude: userStore.usrLng}}>
             <View style={styles.radius}>
               <View style={styles.marker}></View>
             </View>

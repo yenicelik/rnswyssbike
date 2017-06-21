@@ -20,6 +20,9 @@ import { Form,
 
 import {Button} from 'native-base';
 
+import {userStore} from '../UserStore.js';
+
+
 export default class EndBookedBike extends Component {
 
   constructor(props) {

@@ -24,6 +24,9 @@ import {startMainApp} from './../commons.js';
 
 import {Button} from 'native-base';
 
+import {userStore} from '../UserStore.js';
+
+
 export default class RideComplete extends Component {
 
   constructor(props) {

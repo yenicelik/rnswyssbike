@@ -17,6 +17,9 @@ import { Navigation } from 'react-native-navigation';
 import {Fb} from '../firebase.js';
 import {fbMarkers} from './MarkersStore.js';
 
+import {userStore} from '../UserStore.js';
+
+
 const renderingMarkers = [{
   longitude: 8.645592,
   latitude: 47.366465,
@@ -41,13 +44,11 @@ export default class MarkersComponent extends Component {
 
   /** NAVIGATORS */
   navigateToBookBike(bikeNo) {
-    console.log("Bike number");
+    console.log("Navigating to book bike with bike number");
     console.log(bikeNo);
+    userStore.setInterestBikeNo(bikeNo);
     this.props.navigator.push({
       screen: "rnswyssbike.BookbikeComponent",
-      passProps: {
-        bike_no: bikeNo
-      }
     });
   }
   /*/ NAVIGATORS */
@@ -67,7 +68,7 @@ export default class MarkersComponent extends Component {
       coordinate={{longitude: marker.longitude, latitude: marker.latitude}}
       title={marker.title}
       description={marker.description}
-      onPress={(coord, pos) => this.navigateToBookBike(marker.title)}
+      onPress={(coord, pos) => this.navigateToBookBike(marker.bike_no)}
       ><View style={styles.bikeRadius}><View style={styles.bikeMarker}>
       </View></View>
       </MapView.Marker>

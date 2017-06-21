@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {observer} from 'mobx-react';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -20,17 +22,28 @@ import { Form,
 
 import {Button} from 'native-base';
 
-import {bookingStore} from '../BookingStore.js';
+import {userStore} from '../UserStore.js';
 
-
+@observer
 export default class BookbikeComponent extends Component {
 
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    console.log("MapComponent did mount!");
+    userStore.getCurLocation();
+    userStore.watchCurLocation();
+  }
+
+  componentWillUnmount() {
+    console.log("MapComponent will unmount!");
+    userStore.clearWatch();
+  }
+
   updateBookedBikeBegin() {
-    bookingStore.bookBike();
+    userStore.bookInterestedBike();
     this.navigateToSuccessBookedBike();
   }
 
@@ -38,9 +51,6 @@ export default class BookbikeComponent extends Component {
     console.log("Bike booked");
     this.props.navigator.push({
       screen: "rnswyssbike.SuccessBookedBike",
-      passProps: {
-        bike_no: this.props.bike_no
-      }
     });
   }
 
@@ -52,7 +62,7 @@ export default class BookbikeComponent extends Component {
         <View>
           <Text>Bike ID: 6731</Text>
             <Text>CHF 0.99 / 30min.</Text>
-          <Button danger onPress={(coord, pos) => this.navigateToSuccessBookedBike()}><Text>Book this bike!</Text></Button>
+          <Button danger onPress={(coord, pos) => this.updateBookedBikeBegin()}><Text>Book this bike!</Text></Button>
         </View>
        </View>
       </View>);

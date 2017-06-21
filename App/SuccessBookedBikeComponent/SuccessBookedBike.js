@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {observer} from 'mobx-react';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -22,12 +24,13 @@ import {Button} from 'native-base';
 
 
 //Update the booking bike DB data here
+@observer
 export default class SuccessBookedBike extends Component {
 
   constructor(props) {
     super(props);
   }
-  
+
   /** NAVIGATION ACTIONS */
   backToMap() {
     this.props.navigator.popToRoot({
