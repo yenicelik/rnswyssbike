@@ -112,14 +112,14 @@ export default class MapComponents extends Component {
         >
         </MapView.Polygon>
 
-        <MarkersComponent navigator={this.props.navigator}>
-        </MarkersComponent>
-
           <MapView.Marker coordinate={{latitude: userStore.usrLat, longitude: userStore.usrLng}}>
             <View style={styles.radius}>
               <View style={styles.marker}></View>
             </View>
           </MapView.Marker>
+
+        <MarkersComponent navigator={this.props.navigator}>
+        </MarkersComponent>
 
         </MapView>
 

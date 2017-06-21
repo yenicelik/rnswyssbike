@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {observer} from 'mobx-react';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -22,29 +24,22 @@ import {Button} from 'native-base';
 
 import {userStore} from '../UserStore.js';
 
-
+@observer
 export default class EndBookedBike extends Component {
 
   constructor(props) {
     super(props);
   }
 
-  /** DATABASE ACTIONS */
   updateBookedBikeEnd() {
-
+    userStore.endRidingBike();
+    this.navigateToRideComplete();
   }
-  /*/ DATABASE ACTIONS */
 
   /** NAVIGATOR ACTIONS */
   navigateToRideComplete(){
     this.props.navigator.showModal({
       screen: "rnswyssbike.RideComplete"
-    });
-  }
-
-  backToMap() {
-    this.props.navigator.popToRoot({
-      animated: true // does the pop have transition animation or does it happen immediately (optional)
     });
   }
   /*/ NAVIGATOR ACTIONS */
@@ -56,7 +51,7 @@ export default class EndBookedBike extends Component {
         <View style={{marginTop: 22}}>
         <View>
           <Text>Lock the Bike with ID: 6731</Text>
-          <Button danger onPress={(coord, pos) => this.navigateToRideComplete()}><Text>Locked!</Text></Button>
+          <Button danger onPress={(coord, pos) => this.updateBookedBikeEnd()}><Text>Locked!</Text></Button>
         </View>
        </View>
       </View>);

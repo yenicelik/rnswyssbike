@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {observable, computed} from 'mobx';
+import {observable, computed, autorun} from 'mobx';
 import {observer} from 'mobx-react';
 import {
   AppRegistry,
@@ -37,42 +37,68 @@ const renderingMarkers = [{
 @observer
 export default class MarkersComponent extends Component {
 
+  markers = [];
+
   constructor(props) {
     console.log("In markers...");
     super(props);
+
+    setInterval(() => {
+      this.markers = fbMarkers.getValidMarkers;
+      console.log("Markers were updated!");
+      console.log(this.markers)
+    }, 5000);
+  }
+
+  startBookingBike(bikeNo) {
+    if (userStore.bookedBikeNo === -1) {
+      userStore.setInterestBikeNo(bikeNo);
+      this.navigateToBookBike();
+    } else {
+      alert("You are already biking!");
+    }
   }
 
   /** NAVIGATORS */
-  navigateToBookBike(bikeNo) {
-    console.log("Navigating to book bike with bike number");
-    console.log(bikeNo);
-    userStore.setInterestBikeNo(bikeNo);
+  navigateToBookBike() {
     this.props.navigator.push({
       screen: "rnswyssbike.BookbikeComponent",
     });
   }
-  /*/ NAVIGATORS */
 
+  updateComponent = autorun(() => {
+    fbMarkers.markers.slice();
+    this.forceUpdate();
+  });
+
+  /*/ NAVIGATORS */
+  // LayoutAnimation.spring()
   render() {
-    var renderingMarkers = fbMarkers.markers.slice() || [];
+    var renderingMarkers = fbMarkers.getValidMarkers || [];
+    console.log("fbMarkers are: ");
+    console.log(fbMarkers.markers.slice());
     console.log("Rendering stuff..");
     console.log(renderingMarkers);
     console.log("Rendering ALL the stuff!");
     return (<View>
-      {renderingMarkers.map( (marker, index) => {
+      {renderingMarkers.map( (marker) => {
+      console.log("Markers are being rendered...");
       console.log(JSON.stringify(marker));
-      return (
-      <MapView.Marker
-      navigator={this.props.navigator}
-      key={index}
-      coordinate={{longitude: marker.longitude, latitude: marker.latitude}}
-      title={marker.title}
-      description={marker.description}
-      onPress={(coord, pos) => this.navigateToBookBike(marker.bike_no)}
-      ><View style={styles.bikeRadius}><View style={styles.bikeMarker}>
-      </View></View>
-      </MapView.Marker>
-    );
+        console.log("Global key is: " + String(this.globalKey));
+          console.log("Printing marker number");
+          console.log(marker.bike_no);
+          return (
+            <MapView.Marker
+            navigator={this.props.navigator}
+            key={marker.bike_no}
+            coordinate={{longitude: marker.longitude, latitude: marker.latitude}}
+            title={marker.title}
+            description={marker.description}
+            onPress={(coord, pos) => this.startBookingBike(marker.bike_no)}
+            ><View style={styles.bikeRadius}><View style={styles.bikeMarker}>
+            </View></View>
+            </MapView.Marker>
+          );
     })}</View>)
   }
 }

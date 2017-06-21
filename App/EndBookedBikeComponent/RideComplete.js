@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {observer} from 'mobx-react';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -26,7 +28,7 @@ import {Button} from 'native-base';
 
 import {userStore} from '../UserStore.js';
 
-
+@observer
 export default class RideComplete extends Component {
 
   constructor(props) {

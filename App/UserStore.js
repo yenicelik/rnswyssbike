@@ -1,4 +1,4 @@
-import {observable, computed} from 'mobx';
+import {observable, computed, action} from 'mobx';
 import {ObservableMap, toJS} from 'mobx';
 import {Fb} from './firebase.js';
 
@@ -9,6 +9,15 @@ class UserStore {
   @observable usrLat = 0.0;
   @observable watchID = null;
 
+  constructor() {
+    //As a prototype, refer to the user as 'user1'
+    Fb.bikes.child('user1').on('value', (snap) => {
+      snap.forEach((marker) => {});
+    });
+
+  }
+
+  @action
   getCurLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
       this.usrLat = parseFloat(position.coords.latitude);
@@ -20,6 +29,7 @@ class UserStore {
     });
   }
 
+  @action
   watchCurLocation() {
     this.watchID = navigator.geolocation.watchPosition((position) => {
       console.log("Recording GPS data from within the Store!!");
@@ -32,39 +42,60 @@ class UserStore {
       });
   }
 
+  @action
   clearWatch() {
     navigator.geolocation.clearWatch(this.watchID);
   }
+  /*/ GPS */
 
 
-  /** BIKE BOOKING */
+  /** BIKE BOOKING  */
   @observable interestBikeNo = -1;
   @observable bookedBikeNo = -1;
 
+  @action
   setInterestBikeNo(bn) {
     this.interestBikeNo = bn;
   }
 
   bookInterestedBike() {
-    this.updateBikeData();
+    this.updateBikeDataStartRide();
   }
 
-  //Change input to (bikeNo, userID) later on
-  updateBikeData() {
+  updateBikeDataStartRide() {
     console.log("Updating database entry with self...");
     console.log("Bike number is")
     console.log(this.bookedBikeNo);
-    bookBikeNo = this.interestBikeNo;
     var updateVals = {}
     updateVals[this.interestBikeNo] = {
-      bike_no: bookBikeNo,
+      bike_no: this.interestBikeNo,
       current_user: "self",
       positionLat: this.usrLat,
-      positionLng: this.usrLng,
+      positionLng: this.usrLng
     };
     Fb.bikes.update(updateVals);
     return false; //depending on whether this was successful or not, return true or false
   };
+
+  /** BIKE BOOKING END */
+  endRidingBike() {
+    console.log("In end riding bike!");
+    this.setInterestBikeNo(-1);
+    this.updateBikeDataStopRide();
+  }
+
+  updateBikeDataStopRide() {
+    var updateVals = {}
+    updateVals[this.bookedBikeNo] = {
+      bike_no: this.bookedBikeNo, //this.bookedBikeNo,
+      current_user: 0,
+      positionLat: this.usrLat,
+      positionLng: this.usrLng
+    };
+    Fb.bikes.update(updateVals);
+  }
+
+
 
 }
 

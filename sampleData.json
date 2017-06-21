@@ -1,0 +1,50 @@
+{
+	"bikes": {
+		"-1": {
+			"bike_no": -1,
+			"current_user": 0,
+			"positionLat": 47.316907,
+			"positionLng": 8.54511
+		},
+		"0": {
+			"bike_no": 0,
+			"current_user": "self",
+			"positionLat": 47.396907,
+			"positionLng": 8.54511
+		},
+		"1": {
+			"bike_no": 1,
+			"current_user": 0,
+			"positionLat": 47.45511500720094,
+			"positionLng": 8.523110371900383
+		},
+		"2": {
+			"bike_no": 2,
+			"current_user": "self",
+			"positionLat": 47.466907,
+			"positionLng": 8.54511
+		},
+		"3": {
+			"bike_no": 3,
+			"current_user": 0,
+			"positionLat": 47.23779161318867,
+			"positionLng": 8.588948807961753
+		},
+		"10": {
+			"bike_no": 10,
+			"current_user": "self",
+			"positionLat": 47.366907,
+			"positionLng": 8.54511
+		}
+	},
+	"users": {
+		"0": {
+			"uuid": "2nmkjl23",
+			"bookedBikeNo": -1
+		},
+		"1": {
+			"uuid": "4ga234as",
+			"bookedBikeNo": 2
+		}
+	}
+}
