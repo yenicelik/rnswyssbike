@@ -15,9 +15,6 @@ import {
 
 import { Container, Content, List, ListItem, Text, Button} from 'native-base';
 
-import LoginComponent from '../LoginComponent/LoginComponent.js';
-import SignupComponent from '../SignupComponent/SignupComponent.js';
-
 export default class AccountComponent extends Component {
 
   static navigatorStyle = {
