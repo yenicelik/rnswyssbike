@@ -8,15 +8,35 @@ class UserStore {
   @observable usrLng = 0.0;
   @observable usrLat = 0.0;
   @observable watchID = null;
+  @observable startTime;
+  @observable bikeObj = null;
 
   constructor() {
     //As a prototype, refer to the user as 'user1'
     Fb.bikes.child('user1').on('value', (snap) => {
       snap.forEach((marker) => {});
     });
-
   }
 
+  /** DURATION */
+  @action
+  startTimer() {
+    this.startTime = new Date().toLocaleString(); //Then, put this onto the firebase database
+  }
+
+  @computed get getCurDuration() {
+    var delta = Date.now() - this.startTime;
+    return Math.floor(delta / 1000); //returns how many minutes you've been riding
+  }
+
+  @action
+  endTimer() {
+    var delta = Date.now() - this.startTime;
+    this.rideDuration = Math.floor(delta / 1000 / 60); //returns how many minutes you've been riding
+  }
+  /*/ DURATION */
+
+  /** GPS */
   @action
   getCurLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -60,7 +80,23 @@ class UserStore {
 
   bookInterestedBike() {
     this.bookedBikeNo = this.interestBikeNo;
-    this.updateBikeDataStartRide();
+    this.updateBikeDataStartRide(); //TODO: Make sure this is successful
+    this.downloadBikeObj();
+    this.startTimer();
+  }
+
+  @action
+  downloadBikeObj() {
+    console.log("Downloading bike objects!");
+    Fb.staticBikes.child(this.bookedBikeNo).on('value', (bikeObj => {
+      console.log("The downloaded bike object is: ");
+      console.log(bikeObj);
+      console.log(JSON.stringify(bikeObj));
+      bikeObj = bikeObj.val();
+      console.log(bikeObj.bike_no);
+      console.log(bikeObj.code);
+      this.bikeObj = bikeObj;
+    }))
   }
 
   updateBikeDataStartRide() {
@@ -80,6 +116,7 @@ class UserStore {
     this.setInterestBikeNo(-1);
     this.bookedBikeNo = -1;
     this.updateBikeDataStopRide();
+    this.endTimer();
   }
 
   updateBikeDataStopRide() {

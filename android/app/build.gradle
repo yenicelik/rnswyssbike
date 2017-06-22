@@ -133,6 +133,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-firebase')
+    compile project(':react-native-facebook-login')
+    compile project(':react-native-background-timer')
     compile project(':react-native-google-sign-in')
     compile project(':react-native-maps')
     compile fileTree(dir: "libs", include: ["*.jar"])

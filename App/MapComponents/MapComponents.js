@@ -64,6 +64,9 @@ export default class MapComponents extends Component {
       longitude:8.540321
     }];
     this.userStore = getUserStore();
+    this.state = {
+      curTime: new Date().toLocaleString()
+    }
   }
 
   /** NAVIGATORS */
@@ -79,6 +82,13 @@ export default class MapComponents extends Component {
     console.log("MapComponent did mount!");
     this.userStore.getCurLocation();
     this.userStore.watchCurLocation();
+
+    setInterval( () => {
+      this.setState({
+        curTime : new Date().toLocaleString()
+      })
+    }, 59*1000) //Update every 40 seconds
+
   }
 
   componentWillUnmount() {
@@ -127,8 +137,9 @@ export default class MapComponents extends Component {
         {
           (this.userStore.bookedBikeNo != -1) ?
           <View style={{flex: 1, justifyContent: 'space-between', bottom: 0, position: 'absolute', width: '100%'}}>
-            <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Unlock Code: 4391</Text></Button>
-            <Button disabled full style={{width: '100%', backgroundColor: '#03A9F4'}}><Text>Duration: 1 minute</Text></Button>
+            <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Bike ID: {this.userStore.bikeObj.bike_no}</Text></Button>
+            <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Unlock Code: {this.userStore.bikeObj.code}</Text></Button>
+            <Button disabled full style={{width: '100%', backgroundColor: '#03A9F4'}}><Text>Started at: {this.userStore.startTime} min.</Text></Button>
             <Button full style={{width: '100%', backgroundColor: '#ff867c'}} onPress={() => this.navigateToEndBookBike()}><Text>Stop riding</Text></Button>
           </View> : null
         }

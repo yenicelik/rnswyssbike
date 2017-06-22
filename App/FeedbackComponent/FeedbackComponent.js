@@ -75,7 +75,6 @@ export default class FeedbackComponent extends Component {
   }
   /*/ SANITIZER */
 
-//<PushButtonCell ref='push' title='Push me!'/>
   render() {
     return (<View style={{flex:1}}>
       <Form
