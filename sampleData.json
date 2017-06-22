@@ -46,5 +46,37 @@
 			"uuid": "4ga234as",
 			"bookedBikeNo": 2
 		}
+	},
+	"staticBikes": {
+		"-1": {
+			"bike_no": -1,
+			"last_user": 0,
+			"code": "4231"
+		},
+		"0": {
+			"bike_no": 0,
+			"last_user": "self",
+			"code": "5144"
+		},
+		"1": {
+			"bike_no": 1,
+			"last_user": 0,
+			"code": "9824"
+		},
+		"2": {
+			"bike_no": 2,
+			"last_user": "self",
+			"code": "3420"
+		},
+		"3": {
+			"bike_no": 3,
+			"last_user": 0,
+			"code": "1053"
+		},
+		"10": {
+			"bike_no": 10,
+			"last_user": "self",
+			"code": "0942"
+		}
 	}
 }

@@ -57,8 +57,6 @@ export default class FeedbackComponent extends Component {
 
   /** SENDERS */
   emailUs() {
-    this.state.subject = "Sample subject";
-    this.state.body = "Sample body";
     this.state.body = this.escapeRegExp(this.state.body);
     this.state.subject = this.escapeRegExp(this.state.subject);
     var respondantPerson = (Math.random() <= 0.5) ? "michael@swyssbike.ch" : "david@swyssbike.ch";
@@ -82,9 +80,8 @@ export default class FeedbackComponent extends Component {
     return (<View style={{flex:1}}>
       <Form
         ref='registrationForm'>
-        <InputField ref='last_name' placeholder='Last Name'/>
-        <InputField ref='issue_field' placeholder='Tell us your issue'/>
-        <InputField ref='submit' placeholder='Submit'/>
+        <InputField onChangeText={(text) => this.setState({subject: text})} placeholder='Subject Line'/>
+        <InputField onChangeText={(text) => this.setState({body: text})} placeholder='Feedback here'/>
         <Button danger onPress={() => this.emailUs()}><Text>Submit!</Text></Button>
         <Button info onPress={() => this.callUs()}><Text>Call us!</Text></Button>
         </Form>

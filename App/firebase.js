@@ -13,11 +13,13 @@ firebase.initializeApp(config);
 const root = firebase.database().ref();
 const bikes = firebase.database().ref('bikes/');
 const users = firebase.database().ref('users/');
+const staticBikes = firebase.database().ref('staticBikes/');
 
 const Fb = {
   root,
   bikes,
-  users
+  users,
+  staticBikes
 };
 
 export {Fb};
