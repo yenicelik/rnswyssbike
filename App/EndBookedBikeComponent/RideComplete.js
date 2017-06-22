@@ -26,13 +26,14 @@ import {startMainApp} from './../commons.js';
 
 import {Button} from 'native-base';
 
-import {userStore} from '../UserStore.js';
+import {getUserStore} from '../UserStore.js';
 
 @observer
 export default class RideComplete extends Component {
 
   constructor(props) {
     super(props);
+    this.userStore = getUserStore();
   }
 
   /** DATABASE ACTIONS */

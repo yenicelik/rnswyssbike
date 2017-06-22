@@ -22,28 +22,29 @@ import { Form,
 
 import {Button} from 'native-base';
 
-import {userStore} from '../UserStore.js';
+import {getUserStore} from '../UserStore.js';
 
 @observer
 export default class BookbikeComponent extends Component {
 
   constructor(props) {
     super(props);
+    this.userStore = getUserStore();
   }
 
   componentDidMount() {
     console.log("MapComponent did mount!");
-    userStore.getCurLocation();
-    userStore.watchCurLocation();
+    this.userStore.getCurLocation();
+    this.userStore.watchCurLocation();
   }
 
   componentWillUnmount() {
     console.log("MapComponent will unmount!");
-    userStore.clearWatch();
+    this.userStore.clearWatch();
   }
 
   updateBookedBikeBegin() {
-    userStore.bookInterestedBike();
+    this.userStore.bookInterestedBike();
     this.navigateToSuccessBookedBike();
   }
 

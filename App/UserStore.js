@@ -59,13 +59,11 @@ class UserStore {
   }
 
   bookInterestedBike() {
+    this.bookedBikeNo = this.interestBikeNo;
     this.updateBikeDataStartRide();
   }
 
   updateBikeDataStartRide() {
-    console.log("Updating database entry with self...");
-    console.log("Bike number is")
-    console.log(this.bookedBikeNo);
     var updateVals = {}
     updateVals[this.interestBikeNo] = {
       bike_no: this.interestBikeNo,
@@ -79,8 +77,8 @@ class UserStore {
 
   /** BIKE BOOKING END */
   endRidingBike() {
-    console.log("In end riding bike!");
     this.setInterestBikeNo(-1);
+    this.bookedBikeNo = -1;
     this.updateBikeDataStopRide();
   }
 
@@ -94,10 +92,12 @@ class UserStore {
     };
     Fb.bikes.update(updateVals);
   }
-
-
-
 }
 
-const userStore = new UserStore();
-export {userStore};
+let userStore;
+export function getUserStore() {
+  if (!userStore) {
+    userStore = new UserStore();
+  }
+  return userStore;
+}

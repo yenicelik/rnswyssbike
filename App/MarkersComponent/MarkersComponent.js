@@ -17,7 +17,7 @@ import { Navigation } from 'react-native-navigation';
 import {Fb} from '../firebase.js';
 import {fbMarkers} from './MarkersStore.js';
 
-import {userStore} from '../UserStore.js';
+import {getUserStore} from '../UserStore.js';
 
 
 const renderingMarkers = [{
@@ -48,11 +48,12 @@ export default class MarkersComponent extends Component {
       console.log("Markers were updated!");
       console.log(this.markers)
     }, 5000);
+    this.userStore = getUserStore();
   }
 
   startBookingBike(bikeNo) {
-    if (userStore.bookedBikeNo === -1) {
-      userStore.setInterestBikeNo(bikeNo);
+    if (this.userStore.bookedBikeNo === -1) {
+      this.userStore.setInterestBikeNo(bikeNo);
       this.navigateToBookBike();
     } else {
       alert("You are already biking!");

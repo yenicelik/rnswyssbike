@@ -30,7 +30,7 @@ import MapView from 'react-native-maps';
 import MarkersComponent from '../MarkersComponent/MarkersComponent.js';
 import FeedbackComponent from '../FeedbackComponent/FeedbackComponent.js';
 
-import {userStore} from '../UserStore.js';
+import {getUserStore} from '../UserStore.js';
 
 const {
   width,
@@ -63,6 +63,7 @@ export default class MapComponents extends Component {
       latitude:47.368234,
       longitude:8.540321
     }];
+    this.userStore = getUserStore();
   }
 
   /** NAVIGATORS */
@@ -76,13 +77,13 @@ export default class MapComponents extends Component {
 
   componentDidMount() {
     console.log("MapComponent did mount!");
-    userStore.getCurLocation();
-    userStore.watchCurLocation();
+    this.userStore.getCurLocation();
+    this.userStore.watchCurLocation();
   }
 
   componentWillUnmount() {
     console.log("MapComponent will unmount!");
-    userStore.clearWatch();
+    this.userStore.clearWatch();
   }
 
 
@@ -99,8 +100,8 @@ export default class MapComponents extends Component {
           showsMyLocationButton={true}
           style={styles.map}
           region={{
-              latitude: userStore.usrLat, //this.state.usrLat,
-              longitude: userStore.usrLng, //this.state.usrLng,
+              latitude: this.userStore.usrLat, //this.state.usrLat,
+              longitude: this.userStore.usrLng, //this.state.usrLng,
               latitudeDelta: LATITUDE_DELTA,
               longitudeDelta: LONGITUDE_DELTA,
             }}
@@ -112,7 +113,7 @@ export default class MapComponents extends Component {
         >
         </MapView.Polygon>
 
-          <MapView.Marker coordinate={{latitude: userStore.usrLat, longitude: userStore.usrLng}}>
+          <MapView.Marker coordinate={{latitude: this.userStore.usrLat, longitude: this.userStore.usrLng}}>
             <View style={styles.radius}>
               <View style={styles.marker}></View>
             </View>
@@ -123,11 +124,14 @@ export default class MapComponents extends Component {
 
         </MapView>
 
-        <View style={{flex: 1, justifyContent: 'space-between', bottom: 0, position: 'absolute', width: '100%'}}>
-          <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Unlock Code: 4391</Text></Button>
-          <Button disabled full style={{width: '100%', backgroundColor: '#03A9F4'}}><Text>Duration: 1 minute</Text></Button>
-          <Button full style={{width: '100%', backgroundColor: '#ff867c'}} onPress={() => this.navigateToEndBookBike()}><Text>Stop riding</Text></Button>
-        </View>
+        {
+          (this.userStore.bookedBikeNo != -1) ?
+          <View style={{flex: 1, justifyContent: 'space-between', bottom: 0, position: 'absolute', width: '100%'}}>
+            <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Unlock Code: 4391</Text></Button>
+            <Button disabled full style={{width: '100%', backgroundColor: '#03A9F4'}}><Text>Duration: 1 minute</Text></Button>
+            <Button full style={{width: '100%', backgroundColor: '#ff867c'}} onPress={() => this.navigateToEndBookBike()}><Text>Stop riding</Text></Button>
+          </View> : null
+        }
       </View>
     );
   }
