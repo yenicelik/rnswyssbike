@@ -24,3 +24,4 @@ or using the equivalent operation for android (`run-android`)
 [React native navbar collapsible](https://github.com/caroaguilar/react-native-bar-collapsible)
 [Mobx form](https://github.com/foxhound87/mobx-react-form)
 [validatorjs]
+[Communications](https://github.com/anarchicknight/react-native-communications)
