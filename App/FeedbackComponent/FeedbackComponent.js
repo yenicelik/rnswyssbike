@@ -38,11 +38,13 @@ export default class FeedbackComponent extends Component {
       'Feedback submitted',
       'Thanks a lot!',
       [
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
+        {text: 'OK', onPress: () => {
+          console.log('OK Pressed');
+          startMainApp();}
+        },
       ],
       { cancelable: false }
     )
-    startMainApp();
   }
 
 //<PushButtonCell ref='push' title='Push me!'/>

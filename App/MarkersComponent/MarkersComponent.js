@@ -42,12 +42,6 @@ export default class MarkersComponent extends Component {
   constructor(props) {
     console.log("In markers...");
     super(props);
-
-    setInterval(() => {
-      this.markers = fbMarkers.getValidMarkers;
-      console.log("Markers were updated!");
-      console.log(this.markers)
-    }, 5000);
     this.userStore = getUserStore();
   }
 
@@ -60,6 +54,14 @@ export default class MarkersComponent extends Component {
     }
   }
 
+  componentDidMount() {
+    this.updateComponent = autorun(() => {
+      console.log("Auto-reloading");
+      fbMarkers.markers.slice();
+      this.forceUpdate();
+    });
+  }
+
   /** NAVIGATORS */
   navigateToBookBike() {
     this.props.navigator.push({
@@ -67,15 +69,10 @@ export default class MarkersComponent extends Component {
     });
   }
 
-  updateComponent = autorun(() => {
-    fbMarkers.markers.slice();
-    this.forceUpdate();
-  });
-
   /*/ NAVIGATORS */
   // LayoutAnimation.spring()
   render() {
-    var renderingMarkers = fbMarkers.getValidMarkers || [];
+    var renderingMarkers = fbMarkers.markers.slice() || [];
     console.log("fbMarkers are: ");
     console.log(fbMarkers.markers.slice());
     console.log("Rendering stuff..");
@@ -83,13 +80,12 @@ export default class MarkersComponent extends Component {
     console.log("Rendering ALL the stuff!");
     return (<View>
       {renderingMarkers.map( (marker) => {
-      console.log("Markers are being rendered...");
-      console.log(JSON.stringify(marker));
-        console.log("Global key is: " + String(this.globalKey));
-          console.log("Printing marker number");
-          console.log(marker.bike_no);
+        console.log("Markers are re-rendered");
+        console.log(marker.bike_no);
+        console.log(marker.cur_user);
           return (
-            <MapView.Marker
+            <View key={marker.bike_no}>{ (marker.cur_user == 0) ?
+              <MapView.Marker
             navigator={this.props.navigator}
             key={marker.bike_no}
             coordinate={{longitude: marker.longitude, latitude: marker.latitude}}
@@ -98,7 +94,8 @@ export default class MarkersComponent extends Component {
             onPress={(coord, pos) => this.startBookingBike(marker.bike_no)}
             ><View style={styles.bikeRadius}><View style={styles.bikeMarker}>
             </View></View>
-            </MapView.Marker>
+            </MapView.Marker> : null
+          }</View>
           );
     })}</View>)
   }

@@ -34,7 +34,7 @@ class MarkersStore {
   }
 
   @computed get getValidMarkers() {
-    return this.markers.slice().filter( (marker) => marker.cur_user == 0 )
+    return this.markers.slice() //.filter( (marker) => marker.cur_user == 0 )
   }
 
   // update = (bikeNo, data) => {
