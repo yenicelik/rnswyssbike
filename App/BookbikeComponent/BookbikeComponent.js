@@ -46,8 +46,8 @@ export default class BookbikeComponent extends Component {
   }
 
   updateBookedBikeBegin() {
-    this.userStore.bookInterestedBike();
-    this.navigateToSuccessBookedBike();
+    this.userStore.bookInterestedBike()
+    .then(() => this.navigateToSuccessBookedBike());
   }
 
   navigateToSuccessBookedBike() {

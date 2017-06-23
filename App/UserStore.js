@@ -83,15 +83,18 @@ class UserStore {
   @action
   bookInterestedBike() {
     this.bookedBikeNo = this.interestBikeNo;
-    this.downloadBikeObj();
-    this.updateBikeDataStartRide(); //TODO: Make sure this is successful
-    this.updateUserDataStartRide();
     this.startTimer();
+    return this.downloadBikeObj()
+    .then( () => this.updateBikeDataStartRide()) //TODO: Make sure this is successful
+    .then( () => this.updateUserDataStartRide());
   }
 
   @action
   downloadBikeObj() {
-    Fb.staticBikes.child(String(this.bookedBikeNo)).once('value', (bikeObj) => {
+    return Fb.staticBikes
+    .child(String(this.bookedBikeNo))
+    .once('value')
+    .then( (bikeObj) => {
       this.bikeObj = bikeObj.val();
       console.log("Save object is: ");
       console.log(this.bikeObj);
@@ -106,8 +109,7 @@ class UserStore {
       positionLat: this.usrLat,
       positionLng: this.usrLng
     };
-    Fb.bikes.update(updateVals);
-    return false; //depending on whether this was successful or not, return true or false
+    return Fb.bikes.update(updateVals); //depending on whether this was successful or not, return true or false
   };
 
   updateUserDataStartRide() {
@@ -116,8 +118,7 @@ class UserStore {
       bike_no: this.bookedBikeNo,
       uuid: this.uuid //TODO: remove this in deployment
     };
-    Fb.users.update(updateVals);
-    return false; //depending on whether this was successful or not, return true or false
+    return Fb.users.update(updateVals); //depending on whether this was successful or not, return true or false
   };
 
   // BIKE BOOKING (DURING RIDE)
