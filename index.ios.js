@@ -8,10 +8,13 @@ import { registerScreens } from './App/screens.js';
 import {getMarkersStore} from './App/MarkersComponent/MarkersStore.js';
 import {getUserStore} from './App/UserStore.js';
 
+import {getAccountStore} from './App/AccountComponent/AccountStore.js';
+
 
 //Start downloading markers already
 getMarkersStore();
 getUserStore();
+getAccountStore();
 console.log("Still in index.ios!");
 
 registerScreens();

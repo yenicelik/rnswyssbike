@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 
 import { Provider as MobXProvider, observer, inject } from 'mobx-react/native';
-import { Store } from '../Store.js';
 
 import { Navigation } from 'react-native-navigation';
 

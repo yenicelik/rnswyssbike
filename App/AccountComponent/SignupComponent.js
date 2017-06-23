@@ -22,6 +22,8 @@ import { Container, Content, Item, Form, Input, Button } from 'native-base';
 
 import validatorjs from 'validatorjs';
 
+import {getAccountStore} from './AccountStore.js';
+
 const plugins = { dvr: validatorjs };
 
 const fields = [{
@@ -61,6 +63,7 @@ export default class SignupComponent extends Component {
 
   constructor(props) {
     super(props);
+    this.accountStore = getAccountStore();
     this.state = {
       fn: '',
       ln: '',
@@ -68,21 +71,6 @@ export default class SignupComponent extends Component {
       pw: '',
     }
   }
-
-  /** DATABASE ACTIONS */
-  async naiveSignup(email, pass) { //Not sure if the asyn descriptor is needed
-    try {
-        await firebase.auth()
-                .createWithEmailAndPassword(email, pass);
-        console.log("Signed up! User: " + email);
-        return true;
-    } catch (error) {
-      alert('Sign Up failed. Please try again' + error.toString());
-      console.log(error.toString());
-      return false;
-    }
-  }
-  /*/ DATABASE ACTIONS */
 
   /** NAVIGATOR ACTIONS */
   navigateToMap(){
@@ -94,14 +82,14 @@ export default class SignupComponent extends Component {
   signUpWrapper() {
 
     //First, check if valid
-    if (!this.valFirstName()) {
-      alert("First name must not be empty and must contain alphabetical characters only!");
-      return false;
-    }
-    if (!this.valLastName()) {
-      alert("Last name must not be empty and must contain alphabetical characters only!");
-      return false;
-    }
+    // if (!this.valFirstName()) {
+    //   alert("First name must not be empty and must contain alphabetical characters only!");
+    //   return false;
+    // }
+    // if (!this.valLastName()) {
+    //   alert("Last name must not be empty and must contain alphabetical characters only!");
+    //   return false;
+    // }
     if (!this.valEmail()) {
       alert("Email format is not valid");
       return false;
@@ -112,15 +100,16 @@ export default class SignupComponent extends Component {
     }
     //Passed all validation steps
 
-    var signUpSuccess = this.naiveSignup(this.state.email, this.state.pw);
-    console.log("Sign up success is:");
-    console.log(signUpSuccess);
-    if (signUpSuccess) {
-      this.navigateToMap();
-    } else {
-      alert("Sign up failed!");
-      console.log("Sign up failed!");
-    }
+    this.accountStore.signup(this.state.email, this.state.pw)
+    .then( () => {
+      console.log("Account store loggedIn is: ");
+      console.log(this.accountStore.loggedIn);
+      if (this.accountStore.loggedIn) {
+        this.navigateToMap();
+      } else {
+        alert("Sign up failed!");
+        console.log("Sign up failed!");
+      }});
   }
   /*/ ACCOUNT ACTIONS */
 
@@ -160,7 +149,6 @@ export default class SignupComponent extends Component {
             <Input onChangeText={(text) => this.setState({pw: text})} placeholder="Password" />
         </Item>
         <Button block danger onPress={() => this.signUpWrapper()}><Text>Sign up!</Text></Button>
-        <Text>{this.state.email}</Text>
         </Form>
   ;
 

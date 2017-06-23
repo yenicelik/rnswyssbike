@@ -22,4 +22,4 @@ const Fb = {
   staticBikes
 };
 
-export {Fb};
+export {Fb, firebase};

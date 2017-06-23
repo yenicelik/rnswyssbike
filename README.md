@@ -26,3 +26,6 @@ or using the equivalent operation for android (`run-android`)
 [validatorjs]
 [Communications](https://github.com/anarchicknight/react-native-communications)
 [Timer](https://github.com/ocetnik/react-native-background-timer)
+
+
+This looks really cool! [Loading screens](https://github.com/maxs15/react-native-spinkit)

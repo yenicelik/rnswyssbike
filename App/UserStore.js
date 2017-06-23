@@ -50,8 +50,6 @@ class UserStore {
     .once('value')
     .then( (userObj) => {
       this.userObj = userObj.val();
-      console.log("User object is: ");
-      console.log(this.userObj);
     });
   }
 
@@ -69,8 +67,6 @@ class UserStore {
       const value = await AsyncStorage.getItem('@LocalStore:userToken');
       if(value != null) {
         this.uuid = value;
-        console.log("Value is set!");
-        console.log(value);
       }
     } catch (error) {
       console.log("Some funky error getting AsyncStorage");
@@ -136,8 +132,6 @@ class UserStore {
     .once('value')
     .then( (bikeObj) => {
       this.bikeObj = bikeObj.val();
-      console.log("Save object is: ");
-      console.log(this.bikeObj);
     });
   }
 

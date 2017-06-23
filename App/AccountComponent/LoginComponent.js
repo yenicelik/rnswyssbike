@@ -24,6 +24,7 @@ import firebase from '../firebase';
 
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
 
+import {getAccountStore} from './AccountStore.js';
 
 import {
   StackNavigator,
@@ -33,6 +34,8 @@ export default class LoginComponent extends Component {
 
   constructor(props) {
     super(props);
+    this.accountStore = getAccountStore();
+
   }
 
   /** DATABASE ACTIONS */
