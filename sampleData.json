@@ -8,7 +8,7 @@
 		},
 		"0": {
 			"bike_no": 0,
-			"current_user": "self",
+			"current_user": 0,
 			"positionLat": 47.396907,
 			"positionLng": 8.54511
 		},
@@ -32,7 +32,7 @@
 		},
 		"10": {
 			"bike_no": 10,
-			"current_user": "self",
+			"current_user": 0,
 			"positionLat": 47.366907,
 			"positionLng": 8.54511
 		}

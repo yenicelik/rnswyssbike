@@ -15,9 +15,9 @@ import BookbikeComponent from '../BookbikeComponent/BookbikeComponent';
 import { Navigation } from 'react-native-navigation';
 
 import {Fb} from '../firebase.js';
-import {fbMarkers} from './MarkersStore.js';
 
 import {getUserStore} from '../UserStore.js';
+import {getMarkersStore} from './MarkersStore.js';
 
 
 const renderingMarkers = [{
@@ -43,6 +43,7 @@ export default class MarkersComponent extends Component {
     console.log("In markers...");
     super(props);
     this.userStore = getUserStore();
+    this.fbMarkers = getMarkersStore();
   }
 
   startBookingBike(bikeNo) {
@@ -57,7 +58,7 @@ export default class MarkersComponent extends Component {
   componentDidMount() {
     this.updateComponent = autorun(() => {
       console.log("Auto-reloading");
-      fbMarkers.markers.slice();
+      this.fbMarkers.markers.slice();
       this.forceUpdate();
     });
   }
@@ -72,9 +73,9 @@ export default class MarkersComponent extends Component {
   /*/ NAVIGATORS */
   // LayoutAnimation.spring()
   render() {
-    var renderingMarkers = fbMarkers.markers.slice() || [];
+    var renderingMarkers = this.fbMarkers.markers.slice() || [];
     console.log("fbMarkers are: ");
-    console.log(fbMarkers.markers.slice());
+    console.log(this.fbMarkers.markers.slice());
     console.log("Rendering stuff..");
     console.log(renderingMarkers);
     console.log("Rendering ALL the stuff!");

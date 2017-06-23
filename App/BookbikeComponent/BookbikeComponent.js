@@ -15,6 +15,8 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
 import { Form,
   Separator,InputField, LinkField,
   SwitchField, PickerField,DatePickerField,TimePickerField
@@ -63,6 +65,7 @@ export default class BookbikeComponent extends Component {
         <View>
           <Text>Bike ID: 6731</Text>
             <Text>CHF 0.99 / 30min.</Text>
+          <Spinner visible={this.userStore.spinnerVisible} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
           <Button danger onPress={(coord, pos) => this.updateBookedBikeBegin()}><Text>Book this bike!</Text></Button>
         </View>
        </View>

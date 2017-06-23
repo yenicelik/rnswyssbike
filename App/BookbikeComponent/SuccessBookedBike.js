@@ -22,6 +22,9 @@ import { Form,
 
 import {Button} from 'native-base';
 
+import {getUserStore} from '../UserStore.js';
+
+
 
 //Update the booking bike DB data here
 @observer
@@ -29,6 +32,7 @@ export default class SuccessBookedBike extends Component {
 
   constructor(props) {
     super(props);
+    this.userStore = getUserStore();
   }
 
   /** NAVIGATION ACTIONS */
@@ -44,7 +48,7 @@ export default class SuccessBookedBike extends Component {
       <View style={{flex:1}}>
         <View style={{marginTop: 22}}>
         <View>
-          <Text>Successfully Booked Bike with ID: 6731</Text>
+          <Text>Successfully Booked Bike with ID: {String(this.userStore.bikeObj.bike_no)}</Text>
           <Button danger onPress={(coord, pos) => this.backToMap()}><Text>Back to Map!</Text></Button>
         </View>
        </View>

@@ -8,9 +8,10 @@ class MarkersStore {
   @observable markers = [];
 
   constructor() {
-      console.log("Constructing object markers...");
+      console.log("Started downloading markers");
+      var localMarkers = [];
       Fb.bikes.on('value', (snap) => {
-        var localMarkers = [];
+        localMarkers = [];
         snap.forEach((marker) => {
             localMarkers.push({
               longitude: parseFloat(marker.val().positionLng),
@@ -22,6 +23,7 @@ class MarkersStore {
               key: marker.getKey()
             })
         });
+        //Once must make sure that the upper command already finished executing!
         this.markers.replace(localMarkers);
         console.log("Loaded markers");
       });
@@ -37,11 +39,12 @@ class MarkersStore {
     return this.markers.slice() //.filter( (marker) => marker.cur_user == 0 )
   }
 
-  // update = (bikeNo, data) => {
-  //   Fb.bikes.update({bikeNo: data});
-  // };
-
 }
 
-const fbMarkers = new MarkersStore();
-export {fbMarkers};
+let markersStore;
+export function getMarkersStore() {
+  if (!markersStore) {
+    markersStore = new MarkersStore();
+  }
+  return markersStore;
+}

@@ -135,11 +135,11 @@ export default class MapComponents extends Component {
         </MapView>
 
         {
-          (this.userStore.bookedBikeNo != -1) ?
+          (this.userStore.bookedBikeNo != -1) && (this.userStore.bikeObj) ?
           <View style={{flex: 1, justifyContent: 'space-between', bottom: 0, position: 'absolute', width: '100%'}}>
-            <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Bike ID: {this.userStore.bikeObj.bike_no}</Text></Button>
-            <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Unlock Code: {this.userStore.bikeObj.code}</Text></Button>
-            <Button disabled full style={{width: '100%', backgroundColor: '#03A9F4'}}><Text>Started at: {this.userStore.startTime} min.</Text></Button>
+            <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Bike ID: {String(this.userStore.bikeObj.bike_no)}</Text></Button>
+            <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Unlock Code: {String(this.userStore.bikeObj.code)}</Text></Button>
+            <Button disabled full style={{width: '100%', backgroundColor: '#03A9F4'}}><Text>Started at: {String(this.userStore.startTime)} min.</Text></Button>
             <Button full style={{width: '100%', backgroundColor: '#ff867c'}} onPress={() => this.navigateToEndBookBike()}><Text>Stop riding</Text></Button>
           </View> : null
         }

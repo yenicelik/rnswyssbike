@@ -10,6 +10,9 @@ class UserStore {
   @observable watchID = null;
   @observable startTime;
   @observable bikeObj = null;
+  @observable uuid = "sb2s42";
+
+  spinnerVisible = false;
 
   constructor() {
     //As a prototype, refer to the user as 'user1'
@@ -52,7 +55,6 @@ class UserStore {
   @action
   watchCurLocation() {
     this.watchID = navigator.geolocation.watchPosition((position) => {
-      console.log("Recording GPS data from within the Store!!");
       this.usrLat = parseFloat(position.coords.latitude);
       this.usrLng = parseFloat(position.coords.longitude);
       }, (error) => console.log(JSON.stringify(error)), {
@@ -69,7 +71,7 @@ class UserStore {
   /*/ GPS */
 
 
-  /** BIKE BOOKING  */
+  // BIKE BOOKING START
   @observable interestBikeNo = -1;
   @observable bookedBikeNo = -1;
 
@@ -78,25 +80,22 @@ class UserStore {
     this.interestBikeNo = bn;
   }
 
+  @action
   bookInterestedBike() {
     this.bookedBikeNo = this.interestBikeNo;
-    this.updateBikeDataStartRide(); //TODO: Make sure this is successful
     this.downloadBikeObj();
+    this.updateBikeDataStartRide(); //TODO: Make sure this is successful
+    this.updateUserDataStartRide();
     this.startTimer();
   }
 
   @action
   downloadBikeObj() {
-    console.log("Downloading bike objects!");
-    Fb.staticBikes.child(this.bookedBikeNo).on('value', (bikeObj => {
-      console.log("The downloaded bike object is: ");
-      console.log(bikeObj);
-      console.log(JSON.stringify(bikeObj));
-      bikeObj = bikeObj.val();
-      console.log(bikeObj.bike_no);
-      console.log(bikeObj.code);
-      this.bikeObj = bikeObj;
-    }))
+    Fb.staticBikes.child(String(this.bookedBikeNo)).once('value', (bikeObj) => {
+      this.bikeObj = bikeObj.val();
+      console.log("Save object is: ");
+      console.log(this.bikeObj);
+    });
   }
 
   updateBikeDataStartRide() {
@@ -111,23 +110,71 @@ class UserStore {
     return false; //depending on whether this was successful or not, return true or false
   };
 
-  /** BIKE BOOKING END */
+  updateUserDataStartRide() {
+    var updateVals = {}
+    updateVals[this.uuid] = {
+      bike_no: this.bookedBikeNo,
+      uuid: this.uuid //TODO: remove this in deployment
+    };
+    Fb.users.update(updateVals);
+    return false; //depending on whether this was successful or not, return true or false
+  };
+
+  // BIKE BOOKING (DURING RIDE)
+  autoUpdateBikeWrapper = () => {
+    if (this.bookedBikeNo != -1) {
+      this.updateBikeSettings();
+    }
+  }
+
+  updateBikeSettings() {
+    var updateVals = {}
+    updateVals[this.bookedBikeNo] = {
+      positionLat: this.usrLat,
+      positionLng: this.usrLng
+    }
+    console.log("Updating bike settings");
+    Fb.bikes.update(updateVals);
+  }
+
+  // BIKE BOOKING END
   endRidingBike() {
     this.setInterestBikeNo(-1);
     this.bookedBikeNo = -1;
+    this.updateStaticBikeDataStopRide();
     this.updateBikeDataStopRide();
+    this.updateUserDataStopRide();
     this.endTimer();
   }
 
   updateBikeDataStopRide() {
     var updateVals = {}
     updateVals[this.bookedBikeNo] = {
-      bike_no: this.bookedBikeNo, //this.bookedBikeNo,
+      bike_no: this.bookedBikeNo,
       current_user: 0,
       positionLat: this.usrLat,
       positionLng: this.usrLng
     };
     Fb.bikes.update(updateVals);
+  }
+
+  updateStaticBikeDataStopRide() {
+    var updateVals = {};
+    updateVals[this.bookedBikeNo] = {
+      bike_no: this.bookedBikeNo,
+      last_user: this.uuid,
+    };
+    Fb.bikes.update(updateVals);
+  }
+
+  updateUserDataStopRide() {
+    var updateVals = {}
+    updateVals[this.uuid] = {
+      bike_no: -1,
+      uuid: this.uuid //TODO: remove this in deployment
+    };
+    Fb.users.update(updateVals);
+    return false; //depending on whether this was successful or not, return true or false
   }
 }
 
