@@ -6,17 +6,17 @@ class AccountStore {
     this.loggedIn = false;
   }
 
-  async login(email, password) {
-    try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
+  login(email, password) {
+    return firebase.auth().signInWithEmailAndPassword(email, password)
+    .then( () => {
       console.log("User logged in! Current user is: ");
       console.log(JSON.stringify(firebase.auth().currentUser));
-      return true;
-    } catch (error) {
+      this.loggedIn = true;
+    })
+    .catch( (error) => {
       console.log("Firebase login gave an error");
       console.log(JSON.stringify(error));
-    }
-
+    });
   }
 
   signup(email, password) {

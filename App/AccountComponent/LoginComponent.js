@@ -35,26 +35,45 @@ export default class LoginComponent extends Component {
   constructor(props) {
     super(props);
     this.accountStore = getAccountStore();
-
+    this.state = {
+      email: '',
+      pw: '', //should this be hidden somehow?
+    }
   }
 
   /** DATABASE ACTIONS */
-  async naiveLogin(email, pass) { //Not sure if the 'async' flag before is necessary
-    try {
-      await firebase.auth()
-        .signInWithEmailAndPassword(email, pass)
-        .then((userData) => {
-          console.log(JSON.stringify(userData));
-        });
-        console.log("Logged In!");
-        return true;
-    } catch (error) {
-      console.log(error.toString());
-      alert('Login Failed. Please try again'+error.toString());
+  naiveLogin() { //Not sure if the 'async' flag before is necessary
+    if (!this.valEmail()) {
+      alert("Email format is not valid");
       return false;
     }
+    if (!this.valPassword()) {
+      alert("Password must be 8 characters long, contain one uppercase, one lowercase character, and a number")
+      return false;
+    }
+    this.accountStore.login(this.state.email, this.state.pw)
+    .then( () => {
+      console.log("Account store loggedIn is: ");
+      console.log(this.accountStore.loggedIn);
+      if (this.accountStore.loggedIn) {
+        this.navigateToMap();
+      } else {
+        alert("Log in failed!");
+        console.log("Login up failed!");
+      }});
   }
   /*/ DATABASE ACTIONS */
+
+  /** FORM VALIDATORS */
+  valEmail() {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(this.state.email);
+  }
+  valPassword() {
+    var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    return re.test(this.state.pw);
+  }
+  /*/ FORM VALIDATORS */
 
   /** NAVIGATORS **/
   navigateToSignUp(){
@@ -75,13 +94,12 @@ export default class LoginComponent extends Component {
                 <Content>
                     <Form style={{alignItems:'center'}}>
                         <Item>
-                            <Input placeholder="Username" />
+                            <Input onChangeText={(text) => this.setState({email: text})} placeholder="Email" />
                         </Item>
                         <Item last>
-                            <Input placeholder="Password" />
+                            <Input onChangeText={(text) => this.setState({pw: text})} placeholder="Password" />
                         </Item>
-                        <Button block danger
-                        onPress={this._emailPassLogin}><Text>Log In!</Text></Button>
+                        <Button block danger onPress={() => this.naiveLogin()}><Text>Log In!</Text></Button>
                         <Button block warning><Text>Facebook Login</Text></Button>
                         <Button block warning><Text>Google Plus Login</Text></Button>
                         <Button block danger onPress={() => this.navigateToSignUp()}><Text>Sign up</Text></Button>
