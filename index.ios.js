@@ -6,9 +6,12 @@ import {
 import { Navigation } from 'react-native-navigation';
 import { registerScreens } from './App/screens.js';
 import {getMarkersStore} from './App/MarkersComponent/MarkersStore.js';
+import {getUserStore} from './App/UserStore.js';
+
 
 //Start downloading markers already
 getMarkersStore();
+getUserStore();
 console.log("Still in index.ios!");
 
 registerScreens();

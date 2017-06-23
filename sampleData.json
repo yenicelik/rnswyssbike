@@ -45,6 +45,10 @@
 		"1": {
 			"uuid": "4ga234as",
 			"bookedBikeNo": 2
+		},
+		"sampuuid": {
+			"uuid": "sampuuid",
+			"bookedBikeNo": -1
 		}
 	},
 	"staticBikes": {

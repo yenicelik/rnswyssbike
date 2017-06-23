@@ -10,15 +10,15 @@ class UserStore {
   @observable watchID = null;
   @observable startTime;
   @observable bikeObj = null;
-  @observable uuid = "sb2s42";
+  @observable uuid = "sampuuid";
+  @observable userObj = null;
 
   spinnerVisible = false;
 
   constructor() {
-    //As a prototype, refer to the user as 'user1'
-    Fb.bikes.child('user1').on('value', (snap) => {
-      snap.forEach((marker) => {});
-    });
+    console.log("Constructing user object!");
+    //TODO: do this only if this.uuid is not null! must have mechanism for this later
+    this.downloadUserObj();
   }
 
   /** DURATION */
@@ -38,6 +38,20 @@ class UserStore {
     this.rideDuration = Math.floor(delta / 1000 / 60); //returns how many minutes you've been riding
   }
   /*/ DURATION */
+
+  /** USER */
+  @action
+  downloadUserObj() {
+    return Fb.users
+    .child(String(this.uuid))
+    .once('value')
+    .then( (userObj) => {
+      this.userObj = userObj.val();
+      console.log("User object is: ");
+      console.log(this.userObj);
+    });
+  }
+  /*/ USER */
 
   /** GPS */
   @action
@@ -115,7 +129,6 @@ class UserStore {
   updateUserDataStartRide() {
     var updateVals = {}
     updateVals[this.uuid] = {
-      bike_no: this.bookedBikeNo,
       uuid: this.uuid //TODO: remove this in deployment
     };
     return Fb.users.update(updateVals); //depending on whether this was successful or not, return true or false
@@ -134,48 +147,44 @@ class UserStore {
       positionLat: this.usrLat,
       positionLng: this.usrLng
     }
-    console.log("Updating bike settings");
-    Fb.bikes.update(updateVals);
+    return Fb.bikes.update(updateVals);
   }
 
   // BIKE BOOKING END
   endRidingBike() {
     this.setInterestBikeNo(-1);
     this.bookedBikeNo = -1;
-    this.updateStaticBikeDataStopRide();
-    this.updateBikeDataStopRide();
-    this.updateUserDataStopRide();
-    this.endTimer();
+    this.updateStaticBikeDataStopRide()
+    .then(() => this.updateBikeDataStopRide())
+    .then(() => this.updateUserDataStopRide())
+    .then(() => this.this.endTimer());
   }
 
   updateBikeDataStopRide() {
     var updateVals = {}
     updateVals[this.bookedBikeNo] = {
-      bike_no: this.bookedBikeNo,
       current_user: 0,
       positionLat: this.usrLat,
       positionLng: this.usrLng
     };
-    Fb.bikes.update(updateVals);
+    return Fb.bikes.update(updateVals);
   }
 
   updateStaticBikeDataStopRide() {
     var updateVals = {};
     updateVals[this.bookedBikeNo] = {
-      bike_no: this.bookedBikeNo,
       last_user: this.uuid,
     };
-    Fb.bikes.update(updateVals);
+    return Fb.bikes.update(updateVals);
   }
 
   updateUserDataStopRide() {
     var updateVals = {}
     updateVals[this.uuid] = {
-      bike_no: -1,
+      bookedBikeNo: -1,
       uuid: this.uuid //TODO: remove this in deployment
     };
-    Fb.users.update(updateVals);
-    return false; //depending on whether this was successful or not, return true or false
+    return Fb.users.update(updateVals); //depending on whether this was successful or not, return true or false
   }
 }
 
