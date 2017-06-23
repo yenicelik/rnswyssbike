@@ -1,5 +1,6 @@
 import {observable, computed, action} from 'mobx';
 import {ObservableMap, toJS} from 'mobx';
+import {AsyncStorage} from 'react-native';
 import {Fb} from './firebase.js';
 
 class UserStore {
@@ -19,6 +20,8 @@ class UserStore {
     console.log("Constructing user object!");
     //TODO: do this only if this.uuid is not null! must have mechanism for this later
     this.downloadUserObj();
+    this.saveUserToken(); //just testing this, what should actually be done is 'get the token if not existent; else login'
+    this.getUserToken(); //this should always be first, and trigger a login or whatever
   }
 
   /** DURATION */
@@ -50,6 +53,29 @@ class UserStore {
       console.log("User object is: ");
       console.log(this.userObj);
     });
+  }
+
+  async saveUserToken() {
+    try {
+      await AsyncStorage.setItem('@LocalStore:userToken', this.uuid);
+    } catch (error) {
+      console.log("Some funky error with AsyncStorage");
+      console.log(error.message);
+    }
+  }
+
+  async getUserToken() {
+    try {
+      const value = await AsyncStorage.getItem('@LocalStore:userToken');
+      if(value != null) {
+        this.uuid = value;
+        console.log("Value is set!");
+        console.log(value);
+      }
+    } catch (error) {
+      console.log("Some funky error getting AsyncStorage");
+      console.log(error.message);
+    }
   }
   /*/ USER */
 
