@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "320632352787",
+    "project_id": "swyssbike-170819"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320632352787:android:e31014e9bbeb602b",
+        "android_client_info": {
+          "package_name": "com.swyssbike.yenicelik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320632352787-omvga1f5n1tgbp3lfqgjr5pi4e2j0pu1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swyssbike.yenicelik",
+            "certificate_hash": "b175a5bf3d36bf32a135b95ed3a533e13c928f54"
+          }
+        },
+        {
+          "client_id": "320632352787-pvrlu3dpsd3fi67rodetot84qfqhpaho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZb6Sq1QCowOuT-bK0RJVsSw7t3lXyeaM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
