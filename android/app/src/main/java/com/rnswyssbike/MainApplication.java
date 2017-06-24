@@ -3,6 +3,7 @@ package com.rnswyssbike;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.magus.fblogin.FacebookLoginPackage;
 import com.ocetnik.timer.BackgroundTimerPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FBSDKPackage(),
             new RNFirebasePackage(),
             new FacebookLoginPackage(),
             new BackgroundTimerPackage(),

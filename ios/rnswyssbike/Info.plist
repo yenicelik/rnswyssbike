@@ -51,5 +51,27 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb1346374062122069</string>
+      </array>
+    </dict>
+  </array>
+  <key>FacebookAppID</key>
+  <string>1346374062122069</string>
+  <key>FacebookDisplayName</key>
+  <string>Protobike</string>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>fbapi</string>
+    <string>fb-messenger-api</string>
+    <string>fbauth2</string>
+    <string>fbshareextension</string>
+  </array>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>To add your profile picture to your accounts page</string>
 </dict>
 </plist>
