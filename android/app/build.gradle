@@ -94,11 +94,11 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
 
-    //previously targetSdkVersion 22
+    //previously targetSdkVersion 22 //test with 25 etc.
     defaultConfig {
         applicationId "com.swyssbike.yenicelik"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -122,12 +122,10 @@ android {
         }
     }
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
