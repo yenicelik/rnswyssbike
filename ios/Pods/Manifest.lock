@@ -1,4 +1,7 @@
 PODS:
+  - Crashlytics (3.8.4):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.11)
   - Firebase/Analytics (3.17.0):
     - Firebase/Core
   - Firebase/AppIndexing (3.17.0):
@@ -96,6 +99,8 @@ PODS:
   - Protobuf (3.3.0)
 
 DEPENDENCIES:
+  - Crashlytics
+  - Fabric
   - Firebase/Analytics
   - Firebase/AppIndexing
   - Firebase/Auth
@@ -109,6 +114,8 @@ DEPENDENCIES:
   - Google/SignIn
 
 SPEC CHECKSUMS:
+  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseAppIndexing: adf2f3b14b6828f1d4c539fc72434962cf29ea2c
@@ -128,6 +135,6 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
 
-PODFILE CHECKSUM: 9e576288163e0f2204b9e2844a80ac6a16de118c
+PODFILE CHECKSUM: f76e66a1d0e7114793e717ccca6ec0eddf8184a8
 
 COCOAPODS: 1.2.1

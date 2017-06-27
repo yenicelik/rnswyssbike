@@ -17,11 +17,8 @@ class UserStore {
   spinnerVisible = false;
 
   constructor() {
-    console.log("Constructing user object!");
     //TODO: do this only if this.uuid is not null! must have mechanism for this later
     this.downloadUserObj();
-    this.saveUserToken(); //just testing this, what should actually be done is 'get the token if not existent; else login'
-    this.getUserToken(); //this should always be first, and trigger a login or whatever
   }
 
   /** DURATION */

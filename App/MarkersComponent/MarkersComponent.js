@@ -58,7 +58,6 @@ export default class MarkersComponent extends Component {
   componentDidMount() {
     this.updateComponent = autorun(() => {
       console.log("Auto-reloading");
-      this.fbMarkers.markers.slice();
       this.forceUpdate();
     });
   }

@@ -1,2 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<testsuites tests='0' failures='0'/>
+<testsuites name='rnswyssbikeTests.xctest' tests='1' failures='1'>
+  <testsuite name='rnswyssbikeTests' tests='1' failures='1'>
+    <testcase classname='rnswyssbikeTests' name='testRendersWelcomeScreen'>
+      <failure message='((foundElement) is true) failed - Couldn&apos;t find element with text &apos;Welcome to React Native!&apos; in 600 seconds'>ios/rnswyssbikeTests/rnswyssbikeTests.m:66</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

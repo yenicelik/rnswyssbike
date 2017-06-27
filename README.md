@@ -9,6 +9,22 @@ react-native run-ios
 
 or using the equivalent operation for android (`run-android`)
 
+#### Following Protocols are used:
+
+##### Screen Names
+A screen is any javascript file that renders something onto the screen.
+In the screens.js, all the screens are defined for the navigator, such that the navigator knows how to navigate to each screen.
+The convention followed is that the screen name always equals:
+
+`rnswyssbike.{Screen Component Name}`
+
+##### Async Storage Protocols used
+The following elements are saved in async storage:
+All names are prepended by `@LocalStore`
+- `@LocalStore:userToken`: Is the firebase-generated user-token which is retrieved through firebase when signed in or signed up, which can be safely used to *automatically* let the user login.
+- `@LocalStore:userMail`: The user's email, which can be used to log in automatically.
+- `@LocalStore:userPass`: DANGER: This is insecure, but a temporary solution to save the user's password such that he can automatically log in
+
 #### Following frameworks have been used
 
 - [Airbnb maps](https://github.com/airbnb/react-native-maps)
@@ -26,6 +42,6 @@ or using the equivalent operation for android (`run-android`)
 - [validatorjs]
 - [Communications](https://github.com/anarchicknight/react-native-communications)
 - [Timer](https://github.com/ocetnik/react-native-background-timer)
-
+- [Crashlytics](https://www.fabric.io/onboard)
 
 This looks really cool! [Loading screens](https://github.com/maxs15/react-native-spinkit)

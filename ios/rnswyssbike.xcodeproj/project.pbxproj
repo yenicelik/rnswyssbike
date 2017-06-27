@@ -734,6 +734,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				E3735DB6E1C8F51B82DFDCD4 /* [CP] Embed Pods Frameworks */,
 				93EFABFC2D02A116BA763225 /* [CP] Copy Pods Resources */,
+				A1BCA7C21F02ACBA00156533 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1243,6 +1244,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-rnswyssbike/Pods-rnswyssbike-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		A1BCA7C21F02ACBA00156533 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" d3de8d169a913924e712cfc480e2bedc6f220541 f8512d5c1425e0408e7b399ff7a1b6e8709115284868549eb17d0cecbcfbce81";
 		};
 		E3735DB6E1C8F51B82DFDCD4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

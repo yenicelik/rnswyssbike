@@ -39,6 +39,13 @@ export default class LoginComponent extends Component {
       email: '',
       pw: '', //should this be hidden somehow?
     }
+
+    // if (this.accountStore.loggedIn) {
+    //   this.navigateToMap();
+    // } else {
+    //   alert("No local account data found, need to log-in manually!");
+    //   console.log("No local account data found, need to log-in manually!");
+    // };
   }
 
   /** DATABASE ACTIONS */
@@ -97,7 +104,7 @@ export default class LoginComponent extends Component {
                             <Input onChangeText={(text) => this.setState({email: text})} placeholder="Email" />
                         </Item>
                         <Item last>
-                            <Input onChangeText={(text) => this.setState({pw: text})} placeholder="Password" />
+                            <Input secureTextEntry={true} onChangeText={(text) => this.setState({pw: text})} placeholder="Password" />
                         </Item>
                         <Button block danger onPress={() => this.naiveLogin()}><Text>Log In!</Text></Button>
                         <Button block warning><Text>Facebook Login</Text></Button>
