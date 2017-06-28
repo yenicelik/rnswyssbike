@@ -83,6 +83,9 @@ export default class MarkersComponent extends Component {
         console.log("Markers are re-rendered");
         console.log(marker.bike_no);
         console.log(marker.cur_user);
+        const classes = {
+          active: (marker.cur_user == 0)
+        }
           return (
             <View key={marker.bike_no}>
             { <MapView.Marker
@@ -102,9 +105,6 @@ export default class MarkersComponent extends Component {
 }
 
 const styles = StyleSheet.create({
-  markerStyle: {
-
-  },
   markerStyleHidden: {
     height: 0,
     width: 0,

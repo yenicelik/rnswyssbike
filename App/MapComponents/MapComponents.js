@@ -47,20 +47,32 @@ export default class MapComponents extends Component {
   constructor(props) {
     super(props);
     this.cityBorders= [{
-      latitude:47.367601,
-      longitude:8.545226
+      latitude:47.408370, //WEST HONGG
+      longitude:8.500000
     },
     {
-      latitude:47.366009,
-      longitude:8.545269
+      latitude:47.413075, //NORTH HONGG
+      longitude:8.510729
     },
     {
-      latitude:47.363266,
-      longitude:8.543429
+      latitude: 47.417436, //HONGG - OERLIKON
+      longitude: 8.531859
     },
     {
-      latitude:47.368234,
-      longitude:8.540321
+      latitude: 47.419306, //NORTH OERLIKON
+      longitude: 8.555247
+    },
+    {
+      latitude:47.412727, //WEST OERLIKON
+      longitude:8.559738
+    },
+    {
+      latitude:47.374697, //EAST ETH
+      longitude:8.557577
+    },
+    {
+      latitude:47.374240, //HB
+      longitude:8.533130
     }];
     this.userStore = getUserStore();
     this.state = {
