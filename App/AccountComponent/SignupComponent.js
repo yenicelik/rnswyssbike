@@ -146,7 +146,7 @@ export default class SignupComponent extends Component {
             <Input onChangeText={(text) => this.setState({email: text})} ref="eMail" placeholder="Email" />
         </Item>
         <Item last>
-            <Input onChangeText={(text) => this.setState({pw: text})} placeholder="Password" />
+            <Input secureTextEntry={true} onChangeText={(text) => this.setState({pw: text})} placeholder="Password" />
         </Item>
         <Button block danger onPress={() => this.signUpWrapper()}><Text>Sign up!</Text></Button>
         </Form>

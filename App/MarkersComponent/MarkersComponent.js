@@ -48,8 +48,8 @@ export default class MarkersComponent extends Component {
 
   startBookingBike(bikeNo) {
     if (this.userStore.bookedBikeNo === -1) {
-      this.userStore.setInterestBikeNo(bikeNo);
-      this.navigateToBookBike();
+      this.userStore.setInterestBikeNo(bikeNo)
+      .then(() => this.navigateToBookBike());
     } else {
       alert("You are already biking!");
     }
@@ -72,7 +72,7 @@ export default class MarkersComponent extends Component {
   /*/ NAVIGATORS */
   // LayoutAnimation.spring()
   render() {
-    var renderingMarkers = this.fbMarkers.markers.slice() || [];
+    let renderingMarkers = this.fbMarkers.markers.slice() || [];
     console.log("fbMarkers are: ");
     console.log(this.fbMarkers.markers.slice());
     console.log("Rendering stuff..");
@@ -84,17 +84,17 @@ export default class MarkersComponent extends Component {
         console.log(marker.bike_no);
         console.log(marker.cur_user);
           return (
-            <View key={marker.bike_no}>{ (marker.cur_user == 0) ?
-              <MapView.Marker
+            <View key={marker.bike_no}>
+            { <MapView.Marker
             navigator={this.props.navigator}
-            key={marker.bike_no}
             coordinate={{longitude: marker.longitude, latitude: marker.latitude}}
             title={marker.title}
             description={marker.description}
             onPress={(coord, pos) => this.startBookingBike(marker.bike_no)}
-            ><View style={styles.bikeRadius}><View style={styles.bikeMarker}>
+            key={marker.key}
+            ><View style={(marker.cur_user == 0) ? styles.bikeRadius : styles.markerStyleHidden }><View style={styles.bikeMarker}>
             </View></View>
-            </MapView.Marker> : null
+            </MapView.Marker>
           }</View>
           );
     })}</View>)
@@ -102,6 +102,20 @@ export default class MarkersComponent extends Component {
 }
 
 const styles = StyleSheet.create({
+  markerStyle: {
+
+  },
+  markerStyleHidden: {
+    height: 0,
+    width: 0,
+    borderRadius: 0,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(0, 122, 255, 0.5)',
+    borderWidth: 0,
+    borderColor: 'rgba(0, 122, 255, 0.5)',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   radius: {
     height: 30,
     width: 30,

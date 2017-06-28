@@ -4,8 +4,7 @@ import {Fb} from '../firebase.js';
 
 
 class MarkersStore {
-  //@observable markers = [];
-  @observable markers = [];
+  @observable markers = [];
 
   constructor() {
       console.log("Started downloading markers");
@@ -13,6 +12,8 @@ class MarkersStore {
       Fb.bikes.on('value', (snap) => {
         localMarkers = [];
         snap.forEach((marker) => {
+          console.log("Marker bike number is: ");
+          console.log(marker.val().bike_no);
             localMarkers.push({
               longitude: parseFloat(marker.val().positionLng),
               latitude: parseFloat(marker.val().positionLat),
@@ -27,16 +28,6 @@ class MarkersStore {
         this.markers.replace(localMarkers);
         console.log("Loaded markers");
       });
-  }
-
-  @computed get getMarkers() {
-    console.log("Getting markers.. which are:");
-    console.log(JSON.stringify(markers));
-    return this.markers.slice();
-  }
-
-  @computed get getValidMarkers() {
-    return this.markers.slice() //.filter( (marker) => marker.cur_user == 0 )
   }
 
 }

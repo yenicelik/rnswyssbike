@@ -1,11 +1,5 @@
 {
 	"bikes": {
-		"-1": {
-			"bike_no": -1,
-			"current_user": 0,
-			"positionLat": 47.316907,
-			"positionLng": 8.54511
-		},
 		"0": {
 			"bike_no": 0,
 			"current_user": 0,

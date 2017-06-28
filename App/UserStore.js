@@ -110,7 +110,14 @@ class UserStore {
 
   @action
   setInterestBikeNo(bn) {
-    this.interestBikeNo = bn;
+    return new Promise((resolve, reject) => {
+      this.interestBikeNo = bn;
+      if (this.interestBikeNo != -1) {
+        resolve();
+      } else {
+        reject();
+      }
+    });
   }
 
   @action
@@ -118,8 +125,8 @@ class UserStore {
     this.bookedBikeNo = this.interestBikeNo;
     this.startTimer();
     return this.downloadBikeObj()
-    .then( () => this.updateBikeDataStartRide()) //TODO: Make sure this is successful
-    .then( () => this.updateUserDataStartRide());
+    .then( () => {return this.updateBikeDataStartRide()}) //TODO: Make sure this is successful
+    .then( () => {return this.updateUserDataStartRide()});
   }
 
   @action
@@ -172,17 +179,20 @@ class UserStore {
     this.setInterestBikeNo(-1);
     this.bookedBikeNo = -1;
     this.updateStaticBikeDataStopRide()
-    .then(() => this.updateBikeDataStopRide())
-    .then(() => this.updateUserDataStopRide())
-    .then(() => this.this.endTimer());
+    .then(() => {return this.updateBikeDataStopRide()})
+    .then(() => {return this.updateUserDataStopRide()})
+    .then(() => {return this.this.endTimer()});
   }
 
   updateBikeDataStopRide() {
     var updateVals = {}
+    console.log("Stopping ride.... Interesting Bike, then Booked Bike is: ");
+    console.log(this.interestBikeNo);
+    console.log(this.bookedBikeNo);
     updateVals[this.bookedBikeNo] = {
       current_user: 0,
-      positionLat: this.usrLat,
-      positionLng: this.usrLng
+      positionLat: this.usrLat + Math.random() * 0.03 - 0.015,
+      positionLng: this.usrLng + Math.random() * 0.03 - 0.015
     };
     return Fb.bikes.update(updateVals);
   }
