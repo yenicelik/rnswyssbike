@@ -110,8 +110,11 @@ class UserStore {
 
   @action
   setInterestBikeNo(bn) {
+    console.log("Logging interested bike...")
     return new Promise((resolve, reject) => {
+      console.log(bn)
       this.interestBikeNo = bn;
+      console.log(this.interestBikeNo)
       if (this.interestBikeNo != -1) {
         resolve();
       } else {
@@ -122,11 +125,21 @@ class UserStore {
 
   @action
   bookInterestedBike() {
+    console.log("Booking interested bike");
+    console.log(this.interestBikeNo);
+    console.log(this.bookedBikeNo);
     this.bookedBikeNo = this.interestBikeNo;
+    console.log(this.interestBikeNo);
+    console.log(this.bookedBikeNo);
     this.startTimer();
     return this.downloadBikeObj()
-    .then( () => {return this.updateBikeDataStartRide()}) //TODO: Make sure this is successful
-    .then( () => {return this.updateUserDataStartRide()});
+    .then(this.updateBikeDataStartRide()) //TODO: Make sure this is successful
+    .then(this.updateUserDataStartRide())
+    .catch((error) => {
+      console.log("Something went wrong!");
+      console.log(error);
+      alert("Something went wrong!");
+    });
   }
 
   @action
@@ -151,11 +164,7 @@ class UserStore {
   };
 
   updateUserDataStartRide() {
-    var updateVals = {}
-    updateVals[this.uuid] = {
-      uuid: this.uuid //TODO: remove this in deployment
-    };
-    return Fb.users.update(updateVals); //depending on whether this was successful or not, return true or false
+    return Fb.users.child(this.uuid).child('bookedBikeNo').set(this.bookedBikeNo); //depending on whether this was successful or not, return true or false
   };
 
   // BIKE BOOKING (DURING RIDE)
@@ -176,12 +185,11 @@ class UserStore {
 
   // BIKE BOOKING END
   endRidingBike() {
-    this.setInterestBikeNo(-1);
-    this.bookedBikeNo = -1;
-    this.updateStaticBikeDataStopRide()
-    .then(() => {return this.updateBikeDataStopRide()})
-    .then(() => {return this.updateUserDataStopRide()})
-    .then(() => {return this.this.endTimer()});
+      console.log("Ending to ride bike...");
+      console.log(this.bookedBikeNo);
+      return this.updateStaticBikeDataStopRide()
+      .then(this.updateBikeDataStopRide())
+      .then(this.updateUserDataStopRide());
   }
 
   updateBikeDataStopRide() {
@@ -190,19 +198,16 @@ class UserStore {
     console.log(this.interestBikeNo);
     console.log(this.bookedBikeNo);
     updateVals[this.bookedBikeNo] = {
+      bike_no: this.bookedBikeNo,
       current_user: 0,
-      positionLat: this.usrLat + Math.random() * 0.03 - 0.015,
-      positionLng: this.usrLng + Math.random() * 0.03 - 0.015
+      positionLat: this.usrLat + Math.random() * 0.3 - 0.15,
+      positionLng: this.usrLng + Math.random() * 0.3 - 0.15
     };
     return Fb.bikes.update(updateVals);
   }
 
   updateStaticBikeDataStopRide() {
-    var updateVals = {};
-    updateVals[this.bookedBikeNo] = {
-      last_user: this.uuid,
-    };
-    return Fb.bikes.update(updateVals);
+    return Fb.bikes.child(this.bookedBikeNo).child('last_user').set(this.uuid);
   }
 
   updateUserDataStopRide() {
@@ -211,6 +216,8 @@ class UserStore {
       bookedBikeNo: -1,
       uuid: this.uuid //TODO: remove this in deployment
     };
+    this.setInterestBikeNo(-1);
+    this.bookedBikeNo = -1;
     return Fb.users.update(updateVals); //depending on whether this was successful or not, return true or false
   }
 }

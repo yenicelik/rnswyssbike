@@ -14,10 +14,8 @@ import MapView from 'react-native-maps';
 import BookbikeComponent from '../BookbikeComponent/BookbikeComponent';
 import { Navigation } from 'react-native-navigation';
 
-import {Fb} from '../firebase.js';
-
-import {getUserStore} from '../UserStore.js';
 import {getMarkersStore} from './MarkersStore.js';
+import {getUserStore} from '../UserStore.js';
 
 
 const renderingMarkers = [{
@@ -40,10 +38,9 @@ export default class MarkersComponent extends Component {
   markers = [];
 
   constructor(props) {
-    console.log("In markers...");
     super(props);
-    this.userStore = getUserStore();
     this.fbMarkers = getMarkersStore();
+    this.userStore = getUserStore();
   }
 
   startBookingBike(bikeNo) {
@@ -53,13 +50,6 @@ export default class MarkersComponent extends Component {
     } else {
       alert("You are already biking!");
     }
-  }
-
-  componentDidMount() {
-    this.updateComponent = autorun(() => {
-      console.log("Auto-reloading");
-      this.forceUpdate();
-    });
   }
 
   /** NAVIGATORS */
@@ -73,16 +63,8 @@ export default class MarkersComponent extends Component {
   // LayoutAnimation.spring()
   render() {
     let renderingMarkers = this.fbMarkers.markers.slice() || [];
-    console.log("fbMarkers are: ");
-    console.log(this.fbMarkers.markers.slice());
-    console.log("Rendering stuff..");
-    console.log(renderingMarkers);
-    console.log("Rendering ALL the stuff!");
     return (<View>
       {renderingMarkers.map( (marker) => {
-        console.log("Markers are re-rendered");
-        console.log(marker.bike_no);
-        console.log(marker.cur_user);
         const classes = {
           active: (marker.cur_user == 0)
         }

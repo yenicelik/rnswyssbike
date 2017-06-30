@@ -7,13 +7,7 @@ class AccountStore {
   constructor() {
     this.loggedIn = false;
     var email, pass = this.getUserEmailAndPassword(); //both values must not be null
-    console.log("Fetching AccountStore Auto-login")
-    console.log("Email is: ");
-    console.log(email);
-    console.log("Password is: ");
-    console.log(pass)
     if (email && pass) {
-      console.log("Found appropriate log-in data locally")
       this.loggedIn = true;
     }
   }
@@ -23,7 +17,6 @@ class AccountStore {
     try {
       await AsyncStorage.setItem('@LocalStore:userMail', email);
       await AsyncStorage.setItem('@LocalStore:userPass', pass);
-      console.log("Saved login data..");
       return true
     } catch (error) {
       console.log("Some funky error with AsyncStorage from within save Password and E-Mail");
@@ -38,9 +31,6 @@ class AccountStore {
       .then( (email) => {
         AsyncStorage.getItem('@LocalStore:userPass')
         .then( (pass) => {
-          console.log("Got login data");
-          console.log(email);
-          console.log(pass);
           if(email != null && pass != null) {
             return email, pass
           } else {
@@ -58,8 +48,6 @@ class AccountStore {
   login(email, password) {
     return firebase.auth().signInWithEmailAndPassword(email, password)
     .then( () => {
-      console.log("User logged in! Current user is: ");
-      console.log(JSON.stringify(firebase.auth().currentUser));
       this.saveUserEmailAndPassword(email, password);
       this.loggedIn = true;
     })
@@ -70,12 +58,9 @@ class AccountStore {
   }
 
   signup(email, password) {
-    console.log("Firebase object is: ");
     return firebase.auth()
     .createUserWithEmailAndPassword(email, password)
     .then(() => {
-      console.log("User created! Current user is");
-      console.log(JSON.stringify(firebase.auth().currentUser));
       this.saveUserEmailAndPassword(email, password);
       this.loggedIn = true;
     })

@@ -47,7 +47,6 @@ export default class FeedbackComponent extends Component {
       'Thanks a lot!',
       [
         {text: 'OK', onPress: () => {
-          console.log('OK Pressed');
           startMainApp();}
         },
       ],

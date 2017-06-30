@@ -16,7 +16,6 @@ import {
 import MobxReactForm from 'mobx-react-form';
 
 import {startMainApp} from './../commons.js';
-import firebase from '../firebase';
 
 import { Container, Content, Item, Form, Input, Button } from 'native-base';
 
@@ -42,22 +41,6 @@ const fields = [{
   placeholder: 'Confirm Password',
   rules: 'same:password',
 }];
-
-class SignupForm extends MobxReactForm {
-  onSuccess(form) {
-    alert('Form is valid! Send the request here.');
-    // get field values
-    console.log('Form Values!', form.values());
-  }
-
-  onError(form) {
-    // get all form errors
-    console.log('All form errors', form.errors());
-    // invalidate the form with a custom error message
-    form.invalidate('This is a generic error message!');
-  }
-}
-
 
 export default class SignupComponent extends Component {
 
@@ -102,8 +85,6 @@ export default class SignupComponent extends Component {
 
     this.accountStore.signup(this.state.email, this.state.pw)
     .then( () => {
-      console.log("Account store loggedIn is: ");
-      console.log(this.accountStore.loggedIn);
       if (this.accountStore.loggedIn) {
         this.navigateToMap();
       } else {

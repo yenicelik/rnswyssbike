@@ -7,13 +7,10 @@ class MarkersStore {
   @observable markers = [];
 
   constructor() {
-      console.log("Started downloading markers");
       var localMarkers = [];
       Fb.bikes.on('value', (snap) => {
         localMarkers = [];
         snap.forEach((marker) => {
-          console.log("Marker bike number is: ");
-          console.log(marker.val().bike_no);
             localMarkers.push({
               longitude: parseFloat(marker.val().positionLng),
               latitude: parseFloat(marker.val().positionLat),
@@ -26,7 +23,6 @@ class MarkersStore {
         });
         //Once must make sure that the upper command already finished executing!
         this.markers.replace(localMarkers);
-        console.log("Loaded markers");
       });
   }
 

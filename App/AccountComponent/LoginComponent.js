@@ -15,8 +15,6 @@ import {
 } from 'react-native';
 import {startMainApp} from './../commons.js';
 
-import firebase from '../firebase';
-
 // import { Form,
 //   Separator,InputField, LinkField,
 //   SwitchField, PickerField,DatePickerField,TimePickerField
@@ -60,8 +58,6 @@ export default class LoginComponent extends Component {
     }
     this.accountStore.login(this.state.email, this.state.pw)
     .then( () => {
-      console.log("Account store loggedIn is: ");
-      console.log(this.accountStore.loggedIn);
       if (this.accountStore.loggedIn) {
         this.navigateToMap();
       } else {

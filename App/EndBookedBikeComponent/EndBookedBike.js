@@ -33,8 +33,9 @@ export default class EndBookedBike extends Component {
   }
 
   updateBookedBikeEnd() {
-    this.userStore.endRidingBike();
-    this.navigateToRideComplete();
+    this.userStore.endRidingBike().then(
+        this.navigateToRideComplete()
+    );
   }
 
   /** NAVIGATOR ACTIONS */

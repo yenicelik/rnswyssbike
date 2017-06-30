@@ -13,8 +13,6 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-import {accountStore} from './AccountStore.js';
-
 import { Container, Content, List, ListItem, Text, Button} from 'native-base';
 
 export default class AccountComponent extends Component {

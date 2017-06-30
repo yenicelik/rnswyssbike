@@ -35,13 +35,11 @@ export default class BookbikeComponent extends Component {
   }
 
   componentDidMount() {
-    console.log("MapComponent did mount!");
     this.userStore.getCurLocation();
     this.userStore.watchCurLocation();
   }
 
   componentWillUnmount() {
-    console.log("MapComponent will unmount!");
     this.userStore.clearWatch();
   }
 
@@ -51,7 +49,6 @@ export default class BookbikeComponent extends Component {
   }
 
   navigateToSuccessBookedBike() {
-    console.log("Bike booked");
     this.props.navigator.push({
       screen: "rnswyssbike.SuccessBookedBike",
     });

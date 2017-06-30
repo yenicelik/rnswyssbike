@@ -23,8 +23,6 @@ import { Navigation } from 'react-native-navigation';
 import {Container, Content, Badge, Text, Card, CardItem, Button, Fab, Icon, Tab, Tabs} from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
-import {Fb} from '../firebase.js';
-
 import MapView from 'react-native-maps';
 import MarkersComponent from '../MarkersComponent/MarkersComponent.js';
 import FeedbackComponent from '../FeedbackComponent/FeedbackComponent.js';
@@ -82,7 +80,6 @@ export default class MapComponents extends Component {
 
   /** NAVIGATORS */
   navigateToEndBookBike(){
-    console.log("End booked bike!");
     this.props.navigator.push({
       screen: "rnswyssbike.EndBookedBike",
     });
@@ -90,7 +87,6 @@ export default class MapComponents extends Component {
   /*/ NAVIGATORS */
 
   componentDidMount() {
-    console.log("MapComponent did mount!");
     this.userStore.getCurLocation();
     this.userStore.watchCurLocation();
 
@@ -103,14 +99,7 @@ export default class MapComponents extends Component {
   }
 
   componentWillUnmount() {
-    console.log("MapComponent will unmount!");
     this.userStore.clearWatch();
-  }
-
-
-  centerToUser() {
-    //Implement function that changes 'map current location' to the user's location
-    console.log("Centering to user..");
   }
 
   //HUD consists of Code, 'Stop riding' and Bike Number (Bike ID)

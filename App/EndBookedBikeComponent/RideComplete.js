@@ -26,14 +26,11 @@ import {startMainApp} from './../commons.js';
 
 import {Button} from 'native-base';
 
-import {getUserStore} from '../UserStore.js';
-
 @observer
 export default class RideComplete extends Component {
 
   constructor(props) {
     super(props);
-    this.userStore = getUserStore();
   }
 
   /** DATABASE ACTIONS */
@@ -43,7 +40,6 @@ export default class RideComplete extends Component {
 
   /** NAVIGATORS */
   navigateToFeedbackPage() {
-    console.log("Bike booked");
     this.props.navigator.push({
       screen: "rnswyssbike.FeedbackComponent",
     });
