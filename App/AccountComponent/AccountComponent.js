@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 
 import { Container, Content, List, ListItem, Text, Button} from 'native-base';
+import Spinner from 'react-native-spinkit';
+
 
 export default class AccountComponent extends Component {
 
@@ -26,7 +28,8 @@ export default class AccountComponent extends Component {
 
     this.state= {
       selectedScreen: 0,
-      modalVisible: false
+      modalVisible: false,
+      loadingVisible: true
     }
 
   }

@@ -43,5 +43,6 @@ All names are prepended by `@LocalStore`
 - [Communications](https://github.com/anarchicknight/react-native-communications)
 - [Timer](https://github.com/ocetnik/react-native-background-timer)
 - [Crashlytics](https://www.fabric.io/onboard)
+- [Spinkit](npm install react-native-spinkit@latest --save) 
 
 This looks really cool! [Loading screens](https://github.com/maxs15/react-native-spinkit)

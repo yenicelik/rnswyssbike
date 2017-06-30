@@ -156,6 +156,9 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-spinkit')
+    compile project(':react-native-navigation')
+    compile project(':react-native-google-sign-in')
     compile project(':react-native-google-signin')
     compile project(':react-native-fbsdk')
     compile 'com.android.support:multidex:1.0.1'

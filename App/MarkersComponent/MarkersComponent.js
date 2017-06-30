@@ -17,7 +17,6 @@ import { Navigation } from 'react-native-navigation';
 import {getMarkersStore} from './MarkersStore.js';
 import {getUserStore} from '../UserStore.js';
 
-
 const renderingMarkers = [{
   longitude: 8.645592,
   latitude: 47.366465,

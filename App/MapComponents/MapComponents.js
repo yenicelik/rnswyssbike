@@ -16,7 +16,7 @@ import {
   ListView
 } from 'react-native';
 
-import { Provider as MobXProvider, observer, inject } from 'mobx-react/native';
+import { Provider as MobXProvider, observer, inject, autorun } from 'mobx-react/native';
 
 import { Navigation } from 'react-native-navigation';
 
@@ -26,8 +26,9 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import MapView from 'react-native-maps';
 import MarkersComponent from '../MarkersComponent/MarkersComponent.js';
 import FeedbackComponent from '../FeedbackComponent/FeedbackComponent.js';
-
+import LoadingScreen from '../LoadingScreen.js';
 import {getUserStore} from '../UserStore.js';
+import {getMarkersStore} from '../MarkersComponent/MarkersStore.js';
 
 const {
   width,
@@ -44,6 +45,9 @@ export default class MapComponents extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      curTime: new Date().toLocaleString()
+    }
     this.cityBorders= [{
       latitude:47.408370, //WEST HONGG
       longitude:8.500000
@@ -73,8 +77,9 @@ export default class MapComponents extends Component {
       longitude:8.533130
     }];
     this.userStore = getUserStore();
+    this.markersStore = getMarkersStore();
     this.state = {
-      curTime: new Date().toLocaleString()
+      curTime: new Date().toLocaleString(),
     }
   }
 
@@ -104,47 +109,48 @@ export default class MapComponents extends Component {
 
   //HUD consists of Code, 'Stop riding' and Bike Number (Bike ID)
   render() {
-    return (
-      <View style={styles.container}>
-        <MapView
-          showsMyLocationButton={true}
-          style={styles.map}
-          region={{
-              latitude: this.userStore.usrLat, //this.state.usrLat,
-              longitude: this.userStore.usrLng, //this.state.usrLng,
-              latitudeDelta: LATITUDE_DELTA,
-              longitudeDelta: LONGITUDE_DELTA,
-            }}
-        >
-        <MapView.Polygon
-        coordinates={this.cityBorders}
-        strokeColor="rgba(100, 200, 150, 0.5)"
-        fillColor="rgba(100, 200, 150, 0.2)"
-        >
-        </MapView.Polygon>
+      return (
+        (this.markersStore.loadingMarkers) ? <LoadingScreen /> :
+        <View style={styles.container}>
+          <MapView
+            showsMyLocationButton={true}
+            style={styles.map}
+            region={{
+                latitude: this.userStore.usrLat, //this.state.usrLat,
+                longitude: this.userStore.usrLng, //this.state.usrLng,
+                latitudeDelta: LATITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA,
+              }}
+          >
+          <MapView.Polygon
+          coordinates={this.cityBorders}
+          strokeColor="rgba(100, 200, 150, 0.5)"
+          fillColor="rgba(100, 200, 150, 0.2)"
+          >
+          </MapView.Polygon>
 
-          <MapView.Marker coordinate={{latitude: this.userStore.usrLat, longitude: this.userStore.usrLng}}>
-            <View style={styles.radius}>
-              <View style={styles.marker}></View>
-            </View>
-          </MapView.Marker>
+            <MapView.Marker coordinate={{latitude: this.userStore.usrLat, longitude: this.userStore.usrLng}}>
+              <View style={styles.radius}>
+                <View style={styles.marker}></View>
+              </View>
+            </MapView.Marker>
 
-        <MarkersComponent navigator={this.props.navigator}>
-        </MarkersComponent>
+          <MarkersComponent navigator={this.props.navigator}>
+          </MarkersComponent>
 
-        </MapView>
+          </MapView>
 
-        {
-          (this.userStore.bookedBikeNo != -1) && (this.userStore.bikeObj) ?
-          <View style={{flex: 1, justifyContent: 'space-between', bottom: 0, position: 'absolute', width: '100%'}}>
-            <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Bike ID: {String(this.userStore.bikeObj.bike_no)}</Text></Button>
-            <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Unlock Code: {String(this.userStore.bikeObj.code)}</Text></Button>
-            <Button disabled full style={{width: '100%', backgroundColor: '#03A9F4'}}><Text>Started at: {String(this.userStore.startTime)} min.</Text></Button>
-            <Button full style={{width: '100%', backgroundColor: '#ff867c'}} onPress={() => this.navigateToEndBookBike()}><Text>Stop riding</Text></Button>
-          </View> : null
-        }
-      </View>
-    );
+          {
+            (this.userStore.bookedBikeNo != -1) && (this.userStore.bikeObj) ?
+            <View style={{flex: 1, justifyContent: 'space-between', bottom: 0, position: 'absolute', width: '100%'}}>
+              <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Bike ID: {String(this.userStore.bikeObj.bike_no)}</Text></Button>
+              <Button disabled full style={{width: '100%', backgroundColor: '#039BE5'}}><Text>Unlock Code: {String(this.userStore.bikeObj.code)}</Text></Button>
+              <Button disabled full style={{width: '100%', backgroundColor: '#03A9F4'}}><Text>Started at: {String(this.userStore.startTime)} min.</Text></Button>
+              <Button full style={{width: '100%', backgroundColor: '#ff867c'}} onPress={() => this.navigateToEndBookBike()}><Text>Stop riding</Text></Button>
+            </View> : null
+          }
+        </View>
+      );
   }
 }
 

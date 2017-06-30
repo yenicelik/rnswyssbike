@@ -3,6 +3,9 @@ package com.swyssbike.yenicelik;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.reactnativenavigation.NavigationReactPackage;
+import com.reactlibrary.googlesignin.RNGoogleSignInPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -39,6 +42,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSpinkitPackage(),
+            new NavigationReactPackage(),
+            new RNGoogleSignInPackage(),
             new RNGoogleSigninPackage(),
             new RNGoogleSigninPackage(),
             new FBSDKPackage(mCallbackManager),

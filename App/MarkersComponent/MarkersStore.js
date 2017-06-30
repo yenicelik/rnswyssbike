@@ -5,6 +5,7 @@ import {Fb} from '../firebase.js';
 
 class MarkersStore {
   @observable markers = [];
+  @observable loadingMarkers = true;
 
   constructor() {
       var localMarkers = [];
@@ -23,9 +24,9 @@ class MarkersStore {
         });
         //Once must make sure that the upper command already finished executing!
         this.markers.replace(localMarkers);
+        this.loadingMarkers = false;
       });
   }
-
 }
 
 let markersStore;
