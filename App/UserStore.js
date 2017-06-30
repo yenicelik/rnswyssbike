@@ -125,6 +125,7 @@ class UserStore {
 
   @action
   bookInterestedBike() {
+    //TODO: add a check whether interestedBike was set!
     console.log("Booking interested bike");
     console.log(this.interestBikeNo);
     console.log(this.bookedBikeNo);
@@ -166,13 +167,6 @@ class UserStore {
   updateUserDataStartRide() {
     return Fb.users.child(this.uuid).child('bookedBikeNo').set(this.bookedBikeNo); //depending on whether this was successful or not, return true or false
   };
-
-  // BIKE BOOKING (DURING RIDE)
-  autoUpdateBikeWrapper = () => {
-    if (this.bookedBikeNo != -1) {
-      this.updateBikeSettings();
-    }
-  }
 
   updateBikeSettings() {
     var updateVals = {}
