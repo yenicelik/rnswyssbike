@@ -1,28 +1,53 @@
-import React, {Component} from 'react';
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+import React, { Component } from 'react';
 import {
-    AppRegistry
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
 
-import { Navigation } from 'react-native-navigation';
-import { registerScreens } from './App/screens.js';
-//import {getMarkersStore} from './App/MarkersComponent/MarkersStore.js';
-//import {getUserStore} from './App/UserStore.js';
+export default class rnswyssbike extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.instructions}>
+          To get started, edit index.android.js
+        </Text>
+        <Text style={styles.instructions}>
+          Double tap R on your keyboard to reload,{'\n'}
+          Shake or press menu button for dev menu
+        </Text>
+      </View>
+    );
+  }
+}
 
-//import {getAccountStore} from './App/AccountComponent/AccountStore.js';
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
 
-//Start downloading markers already
-//getMarkersStore();
-getUserStore();
-getAccountStore();
-console.log("Still in index.android!");
-
-registerScreens();
-
-Navigation.startSingleScreenApp({
-    screen: {
-        screen: 'rnswyssbike.LoginComponent', // unique ID registered with Navigation.registerScreen
-        navigatorStyle: {}, // override the navigator style for the screen, see "Styling the navigator" below (optional)
-        navigatorButtons: {} // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
-    }
-})
-console.log("Starting...");
+AppRegistry.registerComponent('rnswyssbike', () => rnswyssbike);
